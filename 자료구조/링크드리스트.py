@@ -5,7 +5,7 @@ class Node:
         self.next = None
 
 
-# Python LinkedList 구성 : 아래 코드에서는 중간 데이터 삽입 코드는 작성하지 않음
+# Python LinkedList 구성
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -80,3 +80,20 @@ class LinkedList:
         while node:
             print(node.data)
             node = node.next
+
+
+# * 사용법
+ll = LinkedList()  # 링크드 리스트 ll선언
+ll.add(1)  # 노드 1 리스트에 추가
+ll.add(2)  # 노드 2 리스트에 추가
+ll.add(3)  # 노드 3 리스트에 추가
+ll.print()  # 1 2 3 출력
+print('====================')
+ll.delete(2)  # 노드 2 삭제
+ll.print()  # 1 3 출력
+print('====================')
+ll.delete(1)  # 노드 1 삭제
+ll.print()  # 3 출력
+ll.delete(3)  # 노드 3 삭제
+print(ll.head)  # None 출력
+print('====================')
