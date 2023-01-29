@@ -19,6 +19,7 @@
 #     return answer
 
 # todo: 다시 풀어보기
+# https://school.programmers.co.kr/learn/courses/30/lessons/120921
 def solution(A: str, B: str) -> int:
     result = 0
 
@@ -29,7 +30,6 @@ def solution(A: str, B: str) -> int:
         result += 1
 
     return -1
-
 
 # if __name__ == '__main__':
 #     print(solution("hello", "ohell"))  # 1
