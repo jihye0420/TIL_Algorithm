@@ -58,8 +58,19 @@ print(b)
 # * itertools
 # class: permutations, combinations
 # permutations : iterable 객체에서 r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)계산
+# from itertools import permutations
+# for j in permutations(possible_lang, i):
+#     temp_lang.append(''.join(j))
 
 # * json
 # json: 데이터를 주고 받는데 사용하는 경량의 데이터 형식
 # 인코딩: 파이썬 변수를 JSON 객체로 변환 json.dumps()
 # 디코딩: Json 객체를 파이썬의 기본 자료형으로 변환 json.loads()
+
+# * zip, enumerate,
+# zip 함수: 길이가 같은 리스트 등의 요소를 묶어주는 함수
+
+# * Counter : 중복된 데이터가 저장된 배열을 인자로 넘기면, 각 원소가 몇번씩 나오는지 저장된 객체를 얻음
+# from collections import Counter
+# Counter(["hi", "hey", "hi", "hi", "hello", "hey"])
+# >>> Counter({'hi': 3, 'hey': 2, 'hello': 1})
