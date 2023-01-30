@@ -58,3 +58,8 @@ print(b)
 # * itertools
 # class: permutations, combinations
 # permutations : iterable 객체에서 r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)계산
+
+# * json
+# json: 데이터를 주고 받는데 사용하는 경량의 데이터 형식
+# 인코딩: 파이썬 변수를 JSON 객체로 변환 json.dumps()
+# 디코딩: Json 객체를 파이썬의 기본 자료형으로 변환 json.loads()
