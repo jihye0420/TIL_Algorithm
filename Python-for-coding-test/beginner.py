@@ -74,3 +74,48 @@ print(b)
 # from collections import Counter
 # Counter(["hi", "hey", "hi", "hi", "hello", "hey"])
 # >>> Counter({'hi': 3, 'hey': 2, 'hello': 1})
+
+
+# * 정규표현식 : 특정한 규칙을 가진 문자열의 패턴을 표현하는데 사용하는 표현식
+# 텍스트에서 특정 문자열을 검색하거나, 치환할때 주로 사용
+# ex) 전화번호, 이메일 주소 발췌, 로그 파일에서 특정 에러 메시지 들어간 라인들을 찾을 때 사용함
+import re
+
+text = "에러 1122 : 레퍼런스 오류\n 에러 1033: 아규먼트 오류"
+regex = re.compile("에러 1033")
+mo = regex.search(text)
+if mo != None:
+    print(mo.group())  # 에러 1033
+
+text = "문의사항이 있으면 032-232-3245 으로 연락주시기 바랍니다."
+
+regex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+matchobj = regex.search(text)
+phonenumber = matchobj.group()  # 032-232-3245
+print(phonenumber)
+
+text = "문의사항이 있으면 032-232-3245 으로 연락주시기 바랍니다."
+
+regex = re.compile(r'(\d{3})-(\d{3}-\d{4})')
+matchobj = regex.search(text)
+areaCode = matchobj.group(1)
+num = matchobj.group(2)
+fullNum = matchobj.group()
+print(areaCode, num)  # 032 232-3245
+
+
+def eat(food):
+    answer = ''
+    if food == '양고기':
+        answer = '죠아!!!'
+    elif food == '초밥':
+        answer = '죠아!!!'
+    elif food == '???':
+        answer = '!!!'
+    else:
+        answer = '만보걷기'
+    return answer
+
+
+if __name__ == '__main__':
+    eat('???')
