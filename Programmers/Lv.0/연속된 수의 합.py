@@ -6,3 +6,8 @@
 def solution(num, total):
     average = total // num
     return [i for i in range(average - (num - 1) // 2, average + (num + 2) // 2)]
+
+
+if __name__ == '__main__':
+    print(solution(3, 12))
+    print(solution(5, 15))

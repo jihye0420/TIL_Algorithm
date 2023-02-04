@@ -12,9 +12,14 @@ def solution(babbling):
     for i in range(1, len(possible_lang) + 1):
         for j in permutations(possible_lang, i):
             temp_lang.append(''.join(j))
+    print(temp_lang)
 
     for i in babbling:
         if i in temp_lang:
             answer += 1
 
     return answer
+
+
+if __name__ == '__main__':
+    print(solution(["aya", "yee", "u", "maa", "wyeoo"]))

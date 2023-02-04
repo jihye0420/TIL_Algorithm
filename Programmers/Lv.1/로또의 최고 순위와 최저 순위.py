@@ -1,5 +1,4 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/77484
-
 def solution(lottos, win_nums: list):
     answer = [0, 0]
     win = 0  # 맞힌 개수를 셈

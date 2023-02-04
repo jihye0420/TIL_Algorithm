@@ -1,7 +1,6 @@
 # todo: 다시 풀어보기
 # 아이디어: 가장 큰 값은 모두 가로로, 작은 값은 모두 세로로 => 각 max 값을 곱하기
 # https://school.programmers.co.kr/learn/courses/30/lessons/86491
-
 def solution(sizes):
     answer = 0
     w = [0] * len(sizes)

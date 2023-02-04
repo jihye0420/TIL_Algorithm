@@ -8,3 +8,8 @@ def solution(common):
     else:
         answer = common[-1] * (common[1] // common[0])
     return answer
+
+
+if __name__ == '__main__':
+    print(solution([1, 2, 3, 4]))
+    print(solution([2, 4, 8]))

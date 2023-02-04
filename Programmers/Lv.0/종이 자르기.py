@@ -3,3 +3,9 @@
 def solution(M, N):
     answer = M * N - 1
     return answer
+
+
+if __name__ == '__main__':
+    print(solution(2, 2))
+    print(solution(2, 5))
+    print(solution(1, 1))

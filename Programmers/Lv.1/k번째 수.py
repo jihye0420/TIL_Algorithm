@@ -8,7 +8,7 @@ def solution(array, commands):
         temp = array[a - 1:b]
         temp.sort()
         # print(temp)
-        answer.append(temp[k-1])
+        answer.append(temp[k - 1])
     return answer
 
 
