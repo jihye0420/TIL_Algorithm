@@ -19,6 +19,7 @@ def solution(s):
         # print(key + '' + str(value))
         if key in s:
             s = s.replace(key, str(value))
+
     # for k in numbers.keys():
     #     print(numbers.keys())
     #     print(k)
