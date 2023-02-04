@@ -25,7 +25,7 @@
 #     answer = n
 #     return answer
 
-
+# todo: 리스트 합집합, 차집합, 교집합 공부하기 (https://zetawiki.com/wiki/Python_%EB%A6%AC%EC%8A%A4%ED%8A%B8_%ED%95%A9%EC%A7%91%ED%95%A9,_%EA%B5%90%EC%A7%91%ED%95%A9,_%EC%B0%A8%EC%A7%91%ED%95%A9,_%EB%8C%80%EC%B9%AD%EC%B0%A8)
 def solution(n, lost, reserve):
     # n: 전체 학생의 수
     # lost: 도난당한 학생들의 번호
