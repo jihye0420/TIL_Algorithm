@@ -1,5 +1,33 @@
 # 파이썬 형변환
 # 리스트 함수
+* 리스트 합집합, 교집합, 차집합, 대칭차집합
+  ```python
+  # 합집합
+  lst1 = ['A', 'B', 'C', 'D']
+  lst2 = ['C', 'D', 'E', 'F']
+  union = list(set(lst1) | set(lst2))
+  print(union) # ['C', 'F', 'A', 'E', 'B', 'D']
+  union = list(set().union(lst1,lst2))
+  print(union) # ['C', 'F', 'A', 'E', 'B', 'D']
+  
+  # 교집합
+  intersection = list(set(lst1) & set(lst2))
+  print(intersection) # ['C', 'D']
+  intersection = list(set(lst1).intersection(lst2))
+  print(intersection) # ['C', 'D']
+  
+  # 차집합
+  complement = list(set(lst1) - set(lst2))
+  print(complement) # ['B', 'A']
+  complement = list(set(lst1).difference(lst2))
+  print(complement) # ['A', 'B']
+  
+  # 대칭차집합
+  sym_diff = list(set(lst1) ^ set(lst2))
+  print(sym_diff) # ['F', 'E', 'A', 'B']
+  sym_diff = list(set(lst1).symmetric_difference(lst2))
+  print(sym_diff) # ['F', 'E', 'A', 'B']
+  ```
 # 딕셔너리 함수
 # 문자열 함수
 # datetime 함수
@@ -95,8 +123,6 @@
     result2 = list(map(lambda x: x * 2, [5, 4, 3, 2, 1]))
     print(f"map(람다함수, 리스트) : {result2}")
     ```
-    
-- 
 
 # python Type hinting
 
