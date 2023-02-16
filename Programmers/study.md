@@ -1,34 +1,50 @@
 # 파이썬 형변환
 # 리스트 함수
-* 리스트 합집합, 교집합, 차집합, 대칭차집합
-  ```python
-  # 합집합
-  lst1 = ['A', 'B', 'C', 'D']
-  lst2 = ['C', 'D', 'E', 'F']
-  union = list(set(lst1) | set(lst2))
-  print(union) # ['C', 'F', 'A', 'E', 'B', 'D']
-  union = list(set().union(lst1,lst2))
-  print(union) # ['C', 'F', 'A', 'E', 'B', 'D']
-  
-  # 교집합
-  intersection = list(set(lst1) & set(lst2))
-  print(intersection) # ['C', 'D']
-  intersection = list(set(lst1).intersection(lst2))
-  print(intersection) # ['C', 'D']
-  
-  # 차집합
-  complement = list(set(lst1) - set(lst2))
-  print(complement) # ['B', 'A']
-  complement = list(set(lst1).difference(lst2))
-  print(complement) # ['A', 'B']
-  
-  # 대칭차집합
-  sym_diff = list(set(lst1) ^ set(lst2))
-  print(sym_diff) # ['F', 'E', 'A', 'B']
-  sym_diff = list(set(lst1).symmetric_difference(lst2))
-  print(sym_diff) # ['F', 'E', 'A', 'B']
-  ```
+- 리스트 합집합, 교집합, 차집합, 대칭차집합
+    ```python
+    # 합집합
+    lst1 = ['A', 'B', 'C', 'D']
+    lst2 = ['C', 'D', 'E', 'F']
+    union = list(set(lst1) | set(lst2))
+    print(union) # ['C', 'F', 'A', 'E', 'B', 'D']
+    union = list(set().union(lst1,lst2))
+    print(union) # ['C', 'F', 'A', 'E', 'B', 'D']
+    
+    # 교집합
+    intersection = list(set(lst1) & set(lst2))
+    print(intersection) # ['C', 'D']
+    intersection = list(set(lst1).intersection(lst2))
+    print(intersection) # ['C', 'D']
+    
+    # 차집합
+    complement = list(set(lst1) - set(lst2))
+    print(complement) # ['B', 'A']
+    complement = list(set(lst1).difference(lst2))
+    print(complement) # ['A', 'B']
+    
+    # 대칭차집합
+    sym_diff = list(set(lst1) ^ set(lst2))
+    print(sym_diff) # ['F', 'E', 'A', 'B']
+    sym_diff = list(set(lst1).symmetric_difference(lst2))
+    print(sym_diff) # ['F', 'E', 'A', 'B']
+    ```
 # 딕셔너리 함수
+- key, value를 이용한 값을 가져오기
+    
+    ```python
+    # key, value값을 찾기
+    aa = {'0': 'AA', 
+          '1': 'BB', 
+          '2': 'CC'}
+    aa.get('2')  # 결과: 'CC'
+    
+    # 1) value를 이용해 key를 찾는 경우 
+    [k for k, v in aa.items() if v == 'CC']  # 결과: ['2']
+    # 2) 2배의 저장 공간을 사용하는 단점과 value값에 중복이 있는 경우 1개만 저장되는 단점 존재
+    aa = {'0': 'AA', '1': 'BB', '2': 'CC'}
+    bb = {v:k for k,v in aa.items()} #// {'AA': '0', 'BB': '1', 'CC': '2'}
+    bb.get('CC') # 결과: '2'
+    ```
 # 문자열 함수
 # datetime 함수
 # 내장함수
