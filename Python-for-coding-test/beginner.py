@@ -42,6 +42,57 @@ print(c)
 b.remove(3)  # 특정 값 가지는 원소 제거
 print(b)
 
+# 2차원 배열 입력 받기
+array = [0, 0, 0, 0, 0]
+print('arr1: ', array)
+array = [0] * 5
+print('arr2: ', array)
+array = [i for i in range(2, 9) if i % 2 == 0]
+print('arr3: ', array)
+
+brr = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print('brr1: ', brr)
+brr = [[1, 2, 3]] * 3
+print('brr2: ', brr)
+brr = [[1, 2, 3] for i in range(3)]
+print('brr3: ', brr)
+brr = [[i, j] for i in range(3) for j in range(4)]
+print('brr4: ', brr)
+
+n, m = 2, 3  # map(int, input().split())
+# [0] * m => list(map(int, input().split()))
+# 1
+mylist = [[0] * m for _ in range(n)]
+print('mylist1: ', mylist)
+# 2
+for i in range(n):
+    mylist[i] = [0] * m
+print('mylist2: ', mylist)
+
+# 3
+# mylist = []
+# for i in range(n):
+#     mylist.append(list(map(int, input().split())))
+# print('mylist3: ', mylist)
+
+# 출력
+a = [[10, 20], [30, 40], [50, 60]]
+# 0
+for x, y in a:
+    print(x, y)
+print('===============================================')
+# 1
+for i in a:  # a에서 안쪽 리스트를 꺼냄
+    for j in i:  # 안쪽 리스트에서 요소를 하나씩 꺼냄
+        print(j, end=' ')
+    print()
+print('===============================================')
+# 2
+for i in range(len(a)):
+    for j in range(len(a[i])):
+        print(a[i][j], end=' ')
+    print()
+print('===============================================')
 # * 주요 라이브러리 문법 & 유의점
 # 표준 라이브러리: 특정 프로그래밍 언어에서 자주 사용되는 표준 소스코드를 미리 구현해 놓은 라이브러리
 # 6가지
@@ -57,6 +108,7 @@ print(b)
 
 # * itertools
 # class: permutations, combinations
+# combinations : iterable 객체에서 r개의 데이터를 뽑아 나열하는 모든 경우(조합)계산
 # permutations : iterable 객체에서 r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)계산
 # from itertools import permutations
 # for j in permutations(possible_lang, i):
@@ -69,6 +121,7 @@ print(b)
 
 # * zip, enumerate,
 # zip 함수: 길이가 같은 리스트 등의 요소를 묶어주는 함수
+# enumerate 함수: 리스트의 idex와 요소를 함께 가져올 수 있는 함수
 
 # * Counter : 중복된 데이터가 저장된 배열을 인자로 넘기면, 각 원소가 몇번씩 나오는지 저장된 객체를 얻음
 # from collections import Counter
