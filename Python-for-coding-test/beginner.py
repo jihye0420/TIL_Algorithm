@@ -1,8 +1,12 @@
+"""
+** 자료형
+"""
+
 # * 리스트
 # 크기가 N, 모든 값이 0인 1차원 리스트
 n = 10
 data = [0] * n
-print(data)
+print("data:", data)
 
 # 인덱싱과 슬라이싱
 a = [1, 2, 3, 4, 5, 6, 7, 8, 9, '10']
@@ -13,34 +17,59 @@ print(a[2:5])
 print(a[2:])
 print(a[:4])
 
+
 # 리스트 컴프리헨션
 array = [i for i in range(20) if i % 2 == 1]
-print(array)
+print("컴프리헨션: ", array)
+
+
 # 2차원 배열 선언
 n = 3
 m = 4
 array = [[0] * m for _ in range(n)]  # 반드시 이렇게 초기화해야함!
 # array = [[0] * m] * n  # 이렇게 초기화 시, 의도하지 않은 결과 나옴
-print(array)
+print("2차원 배열: ", array)
+
 
 # 리스트 관련 메서드
-b = [2, 3, 4]
-b.append(7)  # 원소 끝에 삽입
-print(b)
-b.insert(1, 3)  # 인덱스, 원소 값
-print(b)
-b.sort()  # 정렬, 오름차순
-print(b)
-# b.sorted()  # 정렬, 새로운 리스트 반환
-# print(b)
-b.pop()  # 원소 빼기
-print(b)
-b.reverse()  # 역순 정렬
-print(b)
-c = b.count(3)  # 특정 값 가지는 데이터 개수
-print(c)
-b.remove(3)  # 특정 값 가지는 원소 제거
-print(b)
+b = [8, 2, 4]
+
+# 원소 끝에 삽입
+b.append(7)
+print("append:", b)
+
+# 인덱스, 원소 값
+b.insert(1, 3)
+print("insert:", b)
+
+# 정렬, 오름차순
+b.sort()
+print("sort:", b)
+
+# 정렬, 내림차순
+b.sort(reverse=True)
+print("sort(reverse=True):", b)
+
+# 정렬, 새로운 리스트 반환
+# c = sorted(b)
+# print("sorted:", c)
+
+# 마지막 원소 빼기
+b.pop()
+print("pop:", b)
+
+# 역순 정렬
+b.reverse()
+print("reverse:", b)
+
+# 특정 값 가지는 데이터 개수
+c = b.count(3)
+print("count:", c)
+
+# 특정 값 가지는 원소 제거
+b.remove(3)
+print("remove:", b)
+
 
 # 2차원 배열 입력 받기
 array = [0, 0, 0, 0, 0]

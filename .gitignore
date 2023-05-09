@@ -1,8 +1,9 @@
 .idea/
 package-lock.json
-Programmers/TEST/nexon.md
-Programmers/TEST/test12.py
-Programmers/TEST/test13.py
-Programmers/TEST/test14.py
-Programmers/TEST/test15.py
-Programmers/TEST/test16.py
+Programmers_Python/TEST/nexon.md
+Programmers_Python/TEST/test12.py
+Programmers_Python/TEST/test13.py
+Programmers_Python/TEST/test14.py
+Programmers_Python/TEST/test15.py
+Programmers_Python/TEST/test16.py
+out/
