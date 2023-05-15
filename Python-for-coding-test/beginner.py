@@ -1,5 +1,10 @@
 """
-** 자료형
+** 자료형 (수(정수, 실수, 연산), 리스트(생성, 인덱싱&슬라이싱, 컴프리헨션, 메서드 등), 문자열(초기화, 연산), 튜플, 사전, 집합의 생성, 연산, 관련 함수)
+** 조건문 (비교, 논리, 기타 연산자)
+** 반복문 (while문, for문)
+** 함수 (매개변수, 리턴)
+** 입출력 (input, map)
+** 주요 라이브러리의 문법과 유의점
 """
 
 # * 리스트
@@ -17,11 +22,9 @@ print(a[2:5])
 print(a[2:])
 print(a[:4])
 
-
 # 리스트 컴프리헨션
 array = [i for i in range(20) if i % 2 == 1]
 print("컴프리헨션: ", array)
-
 
 # 2차원 배열 선언
 n = 3
@@ -29,7 +32,6 @@ m = 4
 array = [[0] * m for _ in range(n)]  # 반드시 이렇게 초기화해야함!
 # array = [[0] * m] * n  # 이렇게 초기화 시, 의도하지 않은 결과 나옴
 print("2차원 배열: ", array)
-
 
 # 리스트 관련 메서드
 b = [8, 2, 4]
@@ -70,7 +72,6 @@ print("count:", c)
 b.remove(3)
 print("remove:", b)
 
-
 # 2차원 배열 입력 받기
 array = [0, 0, 0, 0, 0]
 print('arr1: ', array)
@@ -97,14 +98,13 @@ print('mylist1: ', mylist)
 for i in range(n):
     mylist[i] = [0] * m
 print('mylist2: ', mylist)
-
 # 3
 # mylist = []
 # for i in range(n):
 #     mylist.append(list(map(int, input().split())))
 # print('mylist3: ', mylist)
 
-# 출력
+# 2차원 배열 출력
 a = [[10, 20], [30, 40], [50, 60]]
 # 0
 for x, y in a:
@@ -122,6 +122,28 @@ for i in range(len(a)):
         print(a[i][j], end=' ')
     print()
 print('===============================================')
+
+# * 입출력
+# input()  # 사용자가 키보드로 입력한 모든 것을 문자열로 저장
+a = "test다 임마!"
+a.split()  # 문자열 나누기 (공백을 기준으로 문자열을 나누어 리스트로 리턴)
+print(a)
+# map(f, iterable)은 함수(f)와 반복 가능한 데이터를 입력 (map객체를 리턴)
+
+# 입력을 위한 전형적인 소스코드
+# 데이터의 개수 입력
+n = int(input())
+# 각 데이터를 공백으로 구분하여 입력
+data = list(map(int, input().split()))  # list로 리턴
+# 공백을 기준으로 구분하여 적은 수의 데이터 입력
+n, m, k = map(int, input().split())  # 각 변수의 값 대입
+print(data)
+print(n, m, k)
+
+# 입력의 개수가 많은 경우 => todo: 정리하기
+# 출력 => todo: 정리하기
+
+
 # * 주요 라이브러리 문법 & 유의점
 # 표준 라이브러리: 특정 프로그래밍 언어에서 자주 사용되는 표준 소스코드를 미리 구현해 놓은 라이브러리
 # 6가지
@@ -151,6 +173,7 @@ print('===============================================')
 # * zip, enumerate,
 # zip 함수: 길이가 같은 리스트 등의 요소를 묶어주는 함수
 # enumerate 함수: 리스트의 idex와 요소를 함께 가져올 수 있는 함수
+
 
 # * Counter : 중복된 데이터가 저장된 배열을 인자로 넘기면, 각 원소가 몇번씩 나오는지 저장된 객체를 얻음
 # from collections import Counter
