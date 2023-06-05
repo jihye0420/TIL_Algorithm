@@ -5,7 +5,7 @@ n, m = map(int, input().split())
 d = [[0] * m for _ in range(n)]
 # 현재 캐릭터의 X 좌표, Y 좌표, 방향을 입력받기
 x, y, direction = map(int, input().split())
-d[x][y] = 1 # 현재 좌표 방문 처리
+d[x][y] = 1  # 현재 좌표 방문 처리
 
 # 전체 맵 정보를 입력받기
 array = []
@@ -16,12 +16,14 @@ for i in range(n):
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 
+
 # 왼쪽으로 회전
 def turn_left():
     global direction
     direction -= 1
     if direction == -1:
         direction = 3
+
 
 # 시뮬레이션 시작
 count = 1

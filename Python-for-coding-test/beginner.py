@@ -18,13 +18,17 @@ a = [1, 2, 3, 4, 5, 6, 7, 8, 9, '10']
 print(a)
 print(a[-1])
 print(a[-3])
-print(a[2:5])
-print(a[2:])
-print(a[:4])
+print(a[2:5])  # 2~5-1까지!
+print(a[2:])  # 2~
+print(a[:4])  # ~4-1까지
+# 문자열[시작:끝:규칙]
 
 # 리스트 컴프리헨션
 array = [i for i in range(20) if i % 2 == 1]
 print("컴프리헨션: ", array)
+
+# 리스트 길이 구하기
+len(array)  # 함수 사용
 
 # 2차원 배열 선언
 n = 3
