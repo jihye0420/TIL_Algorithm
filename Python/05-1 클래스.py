@@ -5,7 +5,7 @@
 
 
 class FourCal:
-    # 생성자
+    # 생성자속
     def __init__(self, first, second):
         self.first = first
         self.second = second

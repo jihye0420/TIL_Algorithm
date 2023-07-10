@@ -3,7 +3,7 @@
 ** 조건문 (비교, 논리, 기타 연산자)
 ** 반복문 (while문, for문)
 ** 함수 (매개변수, 리턴)
-** 입출력 (input, map)
+** 입출력 (input, map, print) v
 ** 주요 라이브러리의 문법과 유의점
 """
 
@@ -127,27 +127,45 @@ for i in range(len(a)):
     print()
 print('===============================================')
 
+"""
 # * 입출력
+"""
 # input()  # 사용자가 키보드로 입력한 모든 것을 문자열로 저장
 a = "test다 임마!"
 a.split()  # 문자열 나누기 (공백을 기준으로 문자열을 나누어 리스트로 리턴)
 print(a)
+
 # map(f, iterable)은 함수(f)와 반복 가능한 데이터를 입력 (map객체를 리턴)
 
-# 입력을 위한 전형적인 소스코드
+# ! 입력을 위한 전형적인 소스코드
 # 데이터의 개수 입력
 n = int(input())
 # 각 데이터를 공백으로 구분하여 입력
 data = list(map(int, input().split()))  # list로 리턴
-# 공백을 기준으로 구분하여 적은 수의 데이터 입력
+# ! 공백을 기준으로 구분하여 적은 수의 데이터 입력
 n, m, k = map(int, input().split())  # 각 변수의 값 대입
 print(data)
 print(n, m, k)
 
-# 입력의 개수가 많은 경우 => todo: 정리하기
-# 출력 => todo: 정리하기
+# ! 입력의 개수가 많은 경우
+import sys
 
+# sys.stdin.readline() : 한 줄 입력 (엔터가 줄 바꿈 기호로 입력됨) -> .rstrip() : 공백 문자 제거
+data = sys.stdin.readline().rstrip()
+print(data)
 
+# ! 출력
+print()  # 출력 이후 줄 바꿈 수행
+aa = 1
+bb = 2
+print(aa, bb)
+print(aa)
+print(bb)
+print("출력은" + str(aa) + str(bb) + "입니다.")  # 출력은12입니다.
+print("출력은", aa, bb, "입니다.")  # 출력은 1 2 입니다. : 공백 존재
+print(f"출력은 {aa + bb}입니다.")  # 출력은 3입니다. : f-string 문법
+
+"""
 # * 주요 라이브러리 문법 & 유의점
 # 표준 라이브러리: 특정 프로그래밍 언어에서 자주 사용되는 표준 소스코드를 미리 구현해 놓은 라이브러리
 # 6가지
@@ -157,6 +175,7 @@ print(n, m, k)
 # 4. bisect: 이진탐색(Binary Search) 기능을 제공하는 라이브러리
 # 5. collections: 덱(deque), 카운터(Counter) 등의 유용한 자료구조 포함하고 있는 라이브러리
 # 6. math: 필수적인 수학적 기능 제공하는 라이브러리, 팩토리얼, 제곱근, 최대공약수(GCD), 삼각함수 관련 함수부터 pi와 같은 상수 포함
+"""
 
 # * 내장함수
 # input(), print(), sum(), min(), max(), eval(), sorted()
