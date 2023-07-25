@@ -23,9 +23,16 @@ print(a[2:])  # 2~
 print(a[:4])  # ~4-1까지
 # 문자열[시작:끝:규칙]
 
-# 리스트 컴프리헨션
+# 리스트 컴프리헨션 : 조건문과 반복문을 넣는 방식으로 리스트를 초기화
 array = [i for i in range(20) if i % 2 == 1]
 print("컴프리헨션: ", array)
+
+# 리스트 컴프리헨션 위 코드와 동일한 로직
+array = []
+for i in range(20):
+    if i % 2 == 1:
+        array.append(i)
+print("array: ", array)
 
 # 리스트 길이 구하기
 len(array)  # 함수 사용
@@ -127,32 +134,50 @@ for i in range(len(a)):
     print()
 print('===============================================')
 
+# * 튜플
+a = (1, 2, 3, 4)
+print(a)
+
+# * 사전
+data = dict()
+data['1'] = "apple"
+data['2'] = "banana"
+data['3'] = "pineapple"
+print("data: ", data)
+# 사전 관련 함수
+key_list = data.keys()
+value_list = data.values()
+print(key_list)
+print(value_list)
+for key in key_list:
+    print(data[key])
+
 """
 # * 입출력
 """
 # input()  # 사용자가 키보드로 입력한 모든 것을 문자열로 저장
 a = "test다 임마!"
-a.split()  # 문자열 나누기 (공백을 기준으로 문자열을 나누어 리스트로 리턴)
-print(a)
+temp = a.split()  # 문자열 나누기 (공백을 기준으로 문자열을 나누어 리스트로 리턴)
+print(temp)
 
 # map(f, iterable)은 함수(f)와 반복 가능한 데이터를 입력 (map객체를 리턴)
 
 # ! 입력을 위한 전형적인 소스코드
-# 데이터의 개수 입력
-n = int(input())
-# 각 데이터를 공백으로 구분하여 입력
-data = list(map(int, input().split()))  # list로 리턴
+# # 데이터의 개수 입력
+# n = int(input())
+# # 각 데이터를 공백으로 구분하여 입력
+# data = list(map(int, input().split()))  # list로 리턴
 # ! 공백을 기준으로 구분하여 적은 수의 데이터 입력
-n, m, k = map(int, input().split())  # 각 변수의 값 대입
-print(data)
-print(n, m, k)
+# n, m, k = map(int, input().split())  # 각 변수의 값 대입
+# print(data)
+# print(n, m, k)
 
 # ! 입력의 개수가 많은 경우
-import sys
-
-# sys.stdin.readline() : 한 줄 입력 (엔터가 줄 바꿈 기호로 입력됨) -> .rstrip() : 공백 문자 제거
-data = sys.stdin.readline().rstrip()
-print(data)
+# import sys
+#
+# # sys.stdin.readline() : 한 줄 입력 (엔터가 줄 바꿈 기호로 입력됨) -> .rstrip() : 공백 문자 제거
+# data = sys.stdin.readline().rstrip()
+# print(data)
 
 # ! 출력
 print()  # 출력 이후 줄 바꿈 수행
@@ -171,7 +196,7 @@ print(f"출력은 {aa + bb}입니다.")  # 출력은 3입니다. : f-string 문�
 # 6가지
 # 1. 내장함수: print(), input() 기본 입출력 기능, sorted() 정렬기능 등 필수 기능 제공
 # 2. itertools: 파이썬에서 반복되는 형태의 데이터를 처리하는 기능을 제공하는 라이브러리, 순열&조합 라이브러리 제공
-# 3. heapq: 힙(Heap) 기능을 제공하는 라이브러리, 우선순위 큐 기능을 구현하기 위해 사용
+# 3. heapq: 힙(Heap) 기능을 제공하는 라이브러리, 우선순위 큐 기능을 구현하기 위해 사용, 다익스트라 최단 경로 알고리즘 구현을 위해 사용
 # 4. bisect: 이진탐색(Binary Search) 기능을 제공하는 라이브러리
 # 5. collections: 덱(deque), 카운터(Counter) 등의 유용한 자료구조 포함하고 있는 라이브러리
 # 6. math: 필수적인 수학적 기능 제공하는 라이브러리, 팩토리얼, 제곱근, 최대공약수(GCD), 삼각함수 관련 함수부터 pi와 같은 상수 포함
@@ -182,9 +207,21 @@ print(f"출력은 {aa + bb}입니다.")  # 출력은 3입니다. : f-string 문�
 
 # * itertools
 # class: permutations, combinations
-# combinations : iterable 객체에서 r개의 데이터를 뽑아 나열하는 모든 경우(조합)계산
-# permutations : iterable 객체에서 r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)계산
-# from itertools import permutations
+# combinations : iterable 객체에서 r개의 데이터를 뽑아 나열하는 모든 경우(조합)계산 => 순서 고려 x
+# permutations : iterable 객체에서 r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)계산 => 순서 고려 o
+# product : iterable 객체에서 r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)계산 => 순서 고려 o, 원소 중복 허용
+# combinations_with_replacement : iterable 객체에서 r개의 데이터를 뽑아 나열하는 모든 경우(조합)계산 => 순서 고려 x, 원소 중복 허용
+from itertools import permutations, combinations, product, combinations_with_replacement
+
+data = ['A', 'B', 'C']
+result_1 = list(combinations(data, 2))
+result_2 = list(permutations(data, 2))
+result_3 = list(product(data, repeat=2))
+result_4 = list(combinations_with_replacement(data, 2))
+print("조합: ", result_1)
+print("순열: ", result_2)
+print("순열(원소 중복 허용): ", result_3)
+print("조합(원소 중복 허용): ", result_4)
 # for j in permutations(possible_lang, i):
 #     temp_lang.append(''.join(j))
 
@@ -231,7 +268,7 @@ num = matchobj.group(2)
 fullNum = matchobj.group()
 print(areaCode, num)  # 032 232-3245
 
-
+# * 함수 예시
 def eat(food):
     answer = ''
     if food == '양고기':
@@ -247,3 +284,8 @@ def eat(food):
 
 if __name__ == '__main__':
     eat('???')
+
+"""
+# * 자료구조
+* 스택, 큐, 힙, 트리, 
+"""
