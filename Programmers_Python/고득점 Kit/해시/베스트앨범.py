@@ -1,41 +1,5 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/42579
-# def solution(genres: list, plays: list) -> list:
-#     answer = []
-#     dict_category = {}  # { 카테고리 : [재생횟수]}
-#     total = {}  # { 카테고리 : 총합}
-#     dict_song = dict(zip(genres, plays))
-#     for i in zip(genres, plays):
-#         if i[0] in dict_category.keys():
-#             dict_category[i[0]].append(i[1])
-#             total[i[0]] += i[1]
-#         else:
-#             dict_category[i[0]] = [i[1]]
-#             total[i[0]] = i[1]
-#
-#     total = sorted(total.items(), key=lambda x: x[1], reverse=True)
-#     print(total)
-#
-#     for k, v in dict_category.items():
-#         dict_category[k] = sorted(v, reverse=True)
-#     print(dict_category)
-#
-#     for i in total:
-#         print(i)
-#         print(dict_category[i[0]][0])
-#         print(dict_category[i[0]][1])
-#         for idx, v in enumerate(plays):
-#             if dict_category[i[0]][0] == v:
-#                 print(v)
-#                 answer.append(idx)
-#             elif dict_category[i[0]][1] == v:
-#                 print(v)
-#                 answer.append(idx)
-#
-#     # 노래가 많이 재생된 장르 고르기
-#     # 장르 내 많이 재생된 노래 수록
-#     # 고유 번호 낮은 것 수록
-#     return answer
-
+# todo: 다시 풀어보기
 def solution(genres, plays):
     answer = []
 
