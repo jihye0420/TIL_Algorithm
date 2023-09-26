@@ -16,7 +16,6 @@ def bfs(graph, start, visited):
     queue = deque([start])
     # 현재 노드를 방문 처리
     visited[start] = True
-    result = 1
     # 큐가 빌 때까지 반복
     while queue:
         # 큐에서 하나의 원소를 뽑아 출력
@@ -25,10 +24,8 @@ def bfs(graph, start, visited):
         # 해당 원소와 연결된, 아직 방문하지 않은 원소들을 큐에 삽입
         for i in graph[v]:
             if not visited[i]:
-                result += 1
                 queue.append(i)
                 visited[i] = True
-    return result
 
 
 # 각 노드가 연결된 정보를 리스트 자료형으로 표현(2차원 리스트)
@@ -49,6 +46,3 @@ visited = [False] * 9
 
 # 정의된 BFS 함수 호출
 result = bfs(graph, 1, visited)
-print()
-print(result)
-
