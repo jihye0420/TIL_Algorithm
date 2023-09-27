@@ -26,7 +26,7 @@ def solution(numbers):
             if not p:
                 continue
             list_temp.append(''.join(p))
-
+    # print(list_temp)
     for i in range(len(list_temp)):
         list_temp[i] = int(list_temp[i])
         if is_prime_number(list_temp[i]):
