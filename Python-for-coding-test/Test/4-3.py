@@ -2,7 +2,7 @@
 n, m = map(int, input().split())
 # 2차원 배열 선언
 d = [[0] * m for _ in range(n)]
-# 위치, 방향
+# 위치, 방향언
 x, y, direction = map(int, input().split())
 d[x][y] = 1
 print(d)
