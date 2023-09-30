@@ -1,6 +1,11 @@
 # https://www.acmicpc.net/problem/18352
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+
 def bfs(x, graph, d):
-    from collections import deque
     queue = deque([x])
     while queue:
         now = queue.popleft()
@@ -40,5 +45,5 @@ for i in range(1, n + 1):
         print(i)
         check = True
 
-if not check:
+if check == False:
     print(-1)
