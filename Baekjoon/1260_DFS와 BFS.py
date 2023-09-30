@@ -34,7 +34,7 @@ for i in range(m):
 for i in graph:
     i.sort()
 
-# print(graph)
+print(graph)
 
 visited = [False] * (n + 1)
 dfs(start, visited, graph)
