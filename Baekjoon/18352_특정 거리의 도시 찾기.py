@@ -38,7 +38,7 @@ d = [-1] * (n + 1)
 d[x] = 0
 
 bfs(x, graph, d)
-
+print(d)
 check = False
 for i in range(1, n + 1):
     if d[i] == k:
