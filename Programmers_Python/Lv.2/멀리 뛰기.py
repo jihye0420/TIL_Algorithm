@@ -26,7 +26,7 @@ from itertools import permutations, product
 
 
 """
-다른 풀이
+다른 풀이 : DP 테이블 활용해보기
 """
 
 
