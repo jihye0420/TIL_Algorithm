@@ -2,20 +2,18 @@
 n, m = map(int, input().split())
 numbers = list(map(int, input().split()))
 
-s = [0]
-# s[0] = numbers[0]
-# for i in range(1, len(numbers)):
-#     s[i] = s[i - 1] + numbers[i]
+s = [0]  # ! index 1부터 값이 채워짐
 temp = 0
 for i in numbers:
     temp = temp + i
     s.append(temp)
+# print(s)
 
 answer = []
 for _ in range(m):
     i, j = map(int, input().split())
-    answer.append(s[j] - s[i - 1])
-# print(answer)
+    print(s[j] - s[i - 1])
+    # answer.append(s[j] - s[i - 1])
 
-for k in answer:
-    print(k)
+# for k in answer:
+#     print(k)
