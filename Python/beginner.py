@@ -176,7 +176,7 @@ print(temp)
 # import sys
 #
 # # sys.stdin.readline() : 한 줄 입력 (엔터가 줄 바꿈 기호로 입력됨) -> .rstrip() : 공백 문자 제거
-# data = sys.stdin.readline().rstrip은()
+# data = sys.stdin.readline().rstrip()
 # print(data)
 
 # ! 출력

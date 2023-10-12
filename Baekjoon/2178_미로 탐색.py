@@ -37,4 +37,5 @@ def solution():
     print(bfs(n, m, graph))
     return
 
+
 solution()
