@@ -45,7 +45,7 @@ def dijkstra(start):
     distance[start] = 0
     visited[start] = True
     for j in graph[start]:
-        # graph의 연결된 노드 index - value 간선 비용
+        # graph의 연결된 노드 index = value 간선 비용
         distance[j[0]] = j[1]
     # 시작 노드를 제외한 전체 n-1개의 노드에 대해서 반복
     for i in range(n - 1):
