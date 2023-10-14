@@ -1,7 +1,31 @@
+"""
+# 개선된 다익스트라 알고리즘
+# 힙 자료구조를 사용 : 우선순위 큐를 구현하기 위하여 사용하는 자료구조
+* 자료구조 - 추출되는 데이터
+스택: 가장 나중에 삽입된 데이터
+큐: 가장 먼저 삽입된 데이터
+우선순위 큐: 우선순위가 가장 높은 데이터
+* 구현:
+[입력]
+6 11
+1
+1 2 2
+1 3 5
+1 4 1
+2 3 3
+2 4 2
+3 2 3
+3 6 5
+4 3 3
+4 5 1
+5 3 1
+5 6 2
+"""
 import heapq
 import sys
+
 input = sys.stdin.readline
-INF = int(1e9) # 무한을 의미하는 값으로 10억을 설정
+INF = int(1e9)  # 무한을 의미하는 값으로 10억을 설정
 
 # 노드의 개수, 간선의 개수를 입력받기
 n, m = map(int, input().split())
@@ -18,12 +42,13 @@ for _ in range(m):
     # a번 노드에서 b번 노드로 가는 비용이 c라는 의미
     graph[a].append((b, c))
 
+
 def dijkstra(start):
     q = []
     # 시작 노드로 가기 위한 최단 경로는 0으로 설정하여, 큐에 삽입
     heapq.heappush(q, (0, start))
     distance[start] = 0
-    while q: # 큐가 비어있지 않다면
+    while q:  # 큐가 비어있지 않다면
         # 가장 최단 거리가 짧은 노드에 대한 정보 꺼내기
         dist, now = heapq.heappop(q)
         # 현재 노드가 이미 처리된 적이 있는 노드라면 무시
@@ -36,6 +61,7 @@ def dijkstra(start):
             if cost < distance[i[0]]:
                 distance[i[0]] = cost
                 heapq.heappush(q, (cost, i[0]))
+
 
 # 다익스트라 알고리즘을 수행
 dijkstra(start)
