@@ -21,7 +21,6 @@ import sys
 # input = sys.stdin.readline() # input : 입력한 문자열
 input = sys.stdin.readline  # 객체
 # print(input)
-
 INF = int(1e9)  # 무한의미 => 10억
 
 # 노드 개수, 간선 개수 입력
