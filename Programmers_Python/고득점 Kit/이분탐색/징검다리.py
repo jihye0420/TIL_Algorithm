@@ -31,7 +31,7 @@
 
 """
 # 다른 풀이 => 이분 탐색 알고리즘 추가
-cf) https://sojeong-lululala.tistory.com/142
+cf) https://velog.io/@jqdjhy/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EC%A7%95%EA%B2%80%EB%8B%A4%EB%A6%AC-%ED%8C%8C%EC%9D%B4%EC%8D%AC
 """
 
 
