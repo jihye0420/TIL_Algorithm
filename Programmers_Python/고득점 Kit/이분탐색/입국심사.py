@@ -1,4 +1,10 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/43238
+"""
+아래 풀이 참고
+https://happy-obok.tistory.com/10
+"""
+
+
 def solution(n, times):
     answer = 0
     # right는 가장 비효율적으로 심사했을 때 걸리는 시간
