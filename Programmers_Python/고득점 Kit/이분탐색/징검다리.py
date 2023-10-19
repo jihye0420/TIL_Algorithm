@@ -15,7 +15,7 @@ def solution(distance, rocks, n):  # 거리, 돌, 제거할 돌 개수
     rocks.sort()
     tt = []
     for i in eliminate_rock:
-        temp = rocks.copy()
+        temp = rocks.copy()  # 파이썬 리스트 복사 => 얕은 복사
         temp.remove(i[0])
         temp.remove(i[1])
         temp.sort()
@@ -28,10 +28,46 @@ def solution(distance, rocks, n):  # 거리, 돌, 제거할 돌 개수
         tt.append(min(t))
     return max(tt)
 
-"""
-# 다른 풀이
 
 """
+# 다른 풀이 => 이분 탐색 알고리즘 추가
+"""
+
+
+def solution(distance, rocks, n):
+    rocks.sort()
+    rocks.append(distance)
+
+    low = 1
+    high = distance
+
+    answer = 0
+
+    while low <= high:
+        mid = (low + high) // 2  # 최솟값
+
+        cur_rock = 0  # 왼쪽 바위
+        count = 0  # 제거된 수
+        for i in range(len(rocks)):
+            pre_rock = rocks[i]  # 오른쪽 바위
+
+            if pre_rock - cur_rock < mid:  # mid보다 작을 경우 제거한다.
+                count += 1
+
+            else:
+                cur_rock = pre_rock
+
+            if n < count:
+                break
+
+        if count <= n:  # mid가 클수록 제거해야 하는 돌이 늘어난다.
+            answer = mid
+            low = mid + 1
+
+        else:
+            high = mid - 1
+
+    return answer
 
 
 if __name__ == '__main__':
