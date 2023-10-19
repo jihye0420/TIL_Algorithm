@@ -6,7 +6,7 @@ def solution(operations):
     answer = []
     heap = []
     for i in operations:
-        i = i.split(' ')
+        i = i.split()
         first = i[0]
         second = int(i[1])
         if first == 'I':
@@ -22,6 +22,11 @@ def solution(operations):
     answer.append(min(heap) if heap else 0)
     return answer
 
+
+"""
+# 다른 풀이 
+2개의 힙을 이용하는 것
+"""
 
 if __name__ == '__main__':
     print(solution(["I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"]))
