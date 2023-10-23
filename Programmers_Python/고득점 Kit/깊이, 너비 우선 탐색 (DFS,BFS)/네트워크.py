@@ -4,6 +4,7 @@
 테스트 케이스는 다 맞음
 정확성: 15.4
 합계: 15.4 / 100.0
+# ! 어느 부분에서 논리적 오류가 있는 것인지 파악이 안됨...!
 """
 
 # def dfs(x, y, computers, n):
@@ -33,23 +34,43 @@
 
 """
 # ! 다른 풀이
+DFS
+BFS
 """
 
 
+def BFS(n, computers, com, visited):
+    visited[com] = True
+    queue = []
+    queue.append(com)
+    while len(queue) != 0:
+        com = queue.pop(0)
+        visited[com] = True
+        for connect in range(n):
+            if connect != com and computers[com][connect] == 1:
+                if visited[connect] == False:
+                    queue.append(connect)
+
+
+def DFS(n, computers, com, visited):
+    visited[com] = True
+    for connect in range(n):
+        if connect != com and computers[com][connect] == 1:  # 연결된 컴퓨터
+            if visited[connect] == False:
+                DFS(n, computers, connect, visited)
+
+
 def solution(n, computers):
-    def DFS(i):
-        visited[i] = 1
-        for a in range(n):
-            if computers[i][a] and not visited[a]:
-                DFS(a)
-
     answer = 0
-    visited = [0 for i in range(len(computers))]
-    for i in range(n):
-        if not visited[i]:
-            DFS(i)
-            answer += 1
-
+    visited = [False for i in range(n)]
+    for com in range(n):
+        if visited[com] == False:
+            # * DFS 풀이
+            DFS(n, computers, com, visited)
+            answer += 1  # DFS로 최대한 컴퓨터들을 방문하고 빠져나오게 되면 그것이 하나의 네트워크.
+            # * BFS 풀이
+            # BFS(n, computers, com, visited)
+            # answer += 1
     return answer
 
 
