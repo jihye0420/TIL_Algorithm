@@ -18,7 +18,7 @@ def bfs(graph, v, visited):
     rs = 0
     while q:
         v = q.popleft()
-        print(v, end=' ')
+        # print(v, end=' ')
         for i in graph[v]:
             if not visited[i]:
                 q.append(i)
@@ -31,7 +31,7 @@ def solution():
     n = int(input())
     m = int(input())
     graph = [[] for _ in range(n + 1)]
-    # graph = [[0]] * (n + 1) # !이렇게 작성하면 안됨.
+    # graph = [[0]] * (n + 1) # ! 이렇게 작성하면 안됨.
     # print(graph)
 
     for i in range(m):
@@ -41,11 +41,10 @@ def solution():
 
     for i in graph:
         i.sort()
-    print(graph)
+    # print(graph)
     visited = [0] * (n + 1)
     result = 0
     result = bfs(graph, 1, visited)
-    print()
     return result
 
 
