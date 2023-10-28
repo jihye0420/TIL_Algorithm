@@ -3,14 +3,15 @@
 """
 * 아이디어
 - split
+- replace
 * 알게된 점
-- split
+- 문자열 함수
+    - split('구분자') : 문자열 나누기
+    - replace() : 문자열 바꾸기
 """
-data = str(input())
+data = input()
 
 croatia_alpabet = ['c=', 'c-', 'dz=', 'd-', 'lj', 'nj', 's=', 'z=']
 for c in croatia_alpabet:
-    if c in data:
-        data = data.split(c)
-        print(data)
-print(len(data)+1)
+    data = data.replace(c, '*')
+print(len(data))
