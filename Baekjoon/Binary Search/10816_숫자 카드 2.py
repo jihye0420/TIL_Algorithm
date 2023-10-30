@@ -7,6 +7,13 @@
     2. 딕셔너리로 풀어보기 => 통과
     3. 이분탐색 => 시간초과
 * 알게된 점
+- dict 관련 함수
+    - dict.keys() : Key 리스트 만들기
+    - dict.values() : value 리스트 만들기
+    - dict.items() : Key, Value 쌍 얻기
+    - dict.clear() : Key: Value 쌍 모두 지우기
+    - dict.get(key) : Key로 Value 얻기, key가 없을 시 None 리턴
+    - for key in dict : 해당 Key가 딕셔너리 안에 있는지 조사하기
 """
 n = int(input())
 # data = list(map(int, input().split()))
