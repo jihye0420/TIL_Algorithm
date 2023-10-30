@@ -15,21 +15,24 @@
     - dict.get(key) : Key로 Value 얻기, key가 없을 시 None 리턴
     - for key in dict : 해당 Key가 딕셔너리 안에 있는지 조사하기
 """
-n = int(input())
-# data = list(map(int, input().split()))
-temp = list(map(int, input().split()))
-data = {}
-m = int(input())
-check = list(map(int, input().split()))
-
-for i in temp:
-    if i not in data.keys():
-        data[i] = 1
-    else:
-        data[i] += 1
-
-for i in check:
-    print(data[i] if i in data.keys() else 0, end=' ')
+"""
+* 내가 푼 풀이 => 정답
+"""
+# n = int(input())
+# # data = list(map(int, input().split()))
+# temp = list(map(int, input().split()))
+# data = {}
+# m = int(input())
+# check = list(map(int, input().split()))
+#
+# for i in temp:
+#     if i not in data.keys():
+#         data[i] = 1
+#     else:
+#         data[i] += 1
+#
+# for i in check:
+#     print(data[i] if i in data.keys() else 0, end=' ')
 """
 * 나만의 풀이
 이분 탐색 => 결국 완탐임
@@ -72,9 +75,9 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-cards = sorted([map(int, input().split())])
+cards = sorted([*map(int, input().split())])
 M = int(input())
-candidate = [map(int, input().split())]
+candidate = [*map(int, input().split())]
 
 count = {}
 for card in cards:
