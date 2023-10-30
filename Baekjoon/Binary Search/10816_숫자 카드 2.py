@@ -1,12 +1,12 @@
-# 입력
-# 10
-# 6 3 2 10 10 10 -10 -10 7 3
-# 8
-# 10 9 -5 2 3 4 5 -10
+# https://www.acmicpc.net/problem/10773
+# * 실버 4
 """
-나만의 풀이 => 시간초과
-1. 리스트 => 시간초과
-2. 딕셔너리로 풀어보기
+* 아이디어
+- 나만의 풀이 => 시간초과
+    1. 리스트 => 시간초과
+    2. 딕셔너리로 풀어보기 => 통과
+    3. 이분탐색 => 시간초과
+* 알게된 점
 """
 n = int(input())
 # data = list(map(int, input().split()))
@@ -24,7 +24,8 @@ for i in temp:
 for i in check:
     print(data[i] if i in data.keys() else 0, end=' ')
 """
-이분 탐색
+* 나만의 풀이
+이분 탐색 => 결국 완탐임
 """
 # n = int(input())
 # data = list(map(int, input().split()))
@@ -55,3 +56,39 @@ for i in check:
 #         elif i > data[mid]:
 #             left = mid + 1
 #     print(count, end=' ')
+"""
+* 다른 풀이
+이분 탐색
+"""
+import sys
+
+input = sys.stdin.readline
+
+N = int(input())
+cards = sorted([map(int, input().split())])
+M = int(input())
+candidate = [map(int, input().split())]
+
+count = {}
+for card in cards:
+    if card in count:
+        count[card] += 1
+    else:
+        count[card] = 1
+
+
+def binarySearch(arr, target, start, end):
+    if start > end:
+        return 0
+
+    mid = (start + end) // 2
+    if arr[mid] == target:
+        return count.get(target)
+    elif arr[mid] < target:
+        return binarySearch(arr, target, mid + 1, end)
+    else:
+        return binarySearch(arr, target, start, mid - 1)
+
+
+for target in candidate:
+    print(binarySearch(cards, target, 0, len(cards) - 1), end=" ")
