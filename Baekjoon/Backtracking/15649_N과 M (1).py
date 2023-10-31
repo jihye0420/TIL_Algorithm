@@ -41,7 +41,7 @@ def recur(num):
     if num == m:
         print(' '.join(map(str, rs)))
         return
-    for i in range(1, n + 1):
+    for i in range(1, n + 1):  # i : 아래!
         if chk[i] == False:
             chk[i] = True
             rs.append(i)
