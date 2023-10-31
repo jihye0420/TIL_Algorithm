@@ -49,6 +49,5 @@ def recur(num):
             chk[i] = False
             rs.pop()
 
-g
 
 recur(0)
