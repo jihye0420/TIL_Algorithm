@@ -1,3 +1,10 @@
+# https://www.acmicpc.net/problem/11047
+# * 실버 4
+"""
+* 아이디어
+* 알게된 점
+"""
+
 n, k = map(int, input().split())
 data = []
 for i in range(n):
@@ -13,4 +20,5 @@ while k >= 0 and data:
 
     else:
         continue
+
 print(count)

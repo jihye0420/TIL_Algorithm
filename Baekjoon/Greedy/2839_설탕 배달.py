@@ -1,3 +1,10 @@
+# https://www.acmicpc.net/problem/2839
+# * 실버 4
+"""
+* 아이디어
+* 알게된 점
+"""
+
 n = int(input())  # 설탕
 
 cnt = 0  # 봉지수
