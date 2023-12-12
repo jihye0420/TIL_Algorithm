@@ -245,6 +245,44 @@ WHERE year(release_date) >= 2015 AND movie_name LIKE '%:%' -- _ 는 딱 한개
 GROUP BY year(release_date)
 ORDER BY 1;
 
+-- 추가 문제 풀이 => todo: 수정 필요
+-- 6. 부제가 있는 영화 찾기 ':' 2015년 이후의 개봉영화 중에서 부제가 달려있는 영화의 개수 세어보기
+SELECT year(release_date), COUNT(movie_name),  -- 총 영화의 개수로 한번 나눠서 비율을 봐야
+FROM box_office
+WHERE year(release_date) >= 2015 AND movie_name LIKE '%:%' -- _ 는 딱 한개
+GROUP BY year(release_date)
+ORDER BY 1;
+
+select year(release_date), count(movie_name) as A
+from box_office
+where year(release_date) >= 2015
+group by year(release_date)
+order by year(release_date);
+
+-- 정답
+-- 6. 부제가 있는 영화 찾기 ':' 2015년 이후의 개봉영화 중에서 부제가 달려있는 영화의 개수 세어보기
+SELECT year(release_date), COUNT(movie_name) -- 총 영화의 개수로 한번 나눠서 비율을 봐야
+FROM box_office
+WHERE year(release_date) >= 2015
+GROUP BY year(release_date)
+ORDER BY 1;
+
+SELECT
+    YEAR(release_date),
+    movie_name,
+    IF(movie_name LIKE '%:%', 1, 0)
+FROM
+    box_office
+WHERE
+    YEAR(release_date) >= 2015
+ORDER BY 1;
+
+SELECT year(release_date), COUNT(movie_name) 전체개봉편수, SUM(IF(movie_name LIKE '%:%', 1, 0)) 부제있는편수,  ROUND(SUM(IF(movie_name LIKE '%:%', 1, 0))/COUNT(movie_name)*100, 2) "전체영화 중 부제있는 영화 비율" -- 총 영화의 개수로 한번 나눠서 비율을 봐야
+FROM box_office
+WHERE year(release_date) >= 2015 -- _ 는 딱 한개
+GROUP BY  year(release_date)
+ORDER BY 1;
+
 
 /*  5. 감독이 두 명 이상이면 콤마(,)로 이어져 있습니다(예, ‘홍길동,김감독’). 감독이 1명이면 그대로,
    두 명 이상이면 콤마 대신 ‘/’ 값으로 대체해(예, ‘홍길동/김감독’) 출력하는 쿼리를 작성해 보세요. */
