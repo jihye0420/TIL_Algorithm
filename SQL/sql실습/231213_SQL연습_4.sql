@@ -81,11 +81,8 @@ UPDATE emp01 SET deptno=50;
 UPDATE emp01 SET deptno=deptno + 10;
 rollback;
 select * from emp01;  
-set @@autocommit = 1; -- delete, update 문은 commit 
--- emp01의 10인 사람을 하나 insert 해주시고 rollback이 적용되는지 확인해보세요
-
-
-
+set @@autocommit = 1; -- delete, update, insert 문은 commit 
+-- emp01의 10인 사람을 하나 insert 해주시고 rollback이 적용되는지 확인해보세요 
 
 INSERT INTO emp01 VALUES (3, '신짱구', 10);
 
@@ -95,60 +92,161 @@ UPDATE emp01 SET deptno=50 WHERE deptno=10; -- 조건에 맞는 행만 값을 �
 SELECT * FROM emp01;
 
 
-
+#      테이블      변경할 컬럼=변경할 값     조건이 되는 컬럼=기존의 값 
 -- 2. ? emp01 table의 모든 사원의 급여를 10%(sal*1.1) 인상하기
 -- ? emp table로 부터 empno, sal, hiredate, ename 순으로 table 생성
-
+DROP TABLE IF EXISTS emp01;
+CREATE TABLE emp01 SELECT empno, sal, hiredate, ename FROM emp;
+DESC emp;
 
 -- UPDATE 테이블명 SET 변경할컬럼=변경할값 WHERE 조건을탐색할컬럼=기존값;
-
-
+UPDATE emp01 SET sal=round(sal*1.1);
+SELECT * FROM emp01;
 
 -- ? 3. emp01의 모든 사원의 입사일을 오늘로 바꿔주세요
 select now(), sleep(2), now(); -- 명령문이 실행될 때 한번만 시간을 기록합니다 
 select sysdate(), sleep(2), sysdate(); -- 함수가 실행되는 순간의 시간을 기록합니다 
 
-
+DESC emp01;
+UPDATE emp01 SET hiredate=now(); -- date와 datetime은 호환되는 자료형이구나 
+SELECT * FROM emp01;
 
 -- ? 4. 급여가 3000이상(where sal >= 3000)인 사원의 급여만 10%인상
-
+UPDATE emp01 SET sal=round(sal*1.1) WHERE sal >= 3000; -- 조건 만족하는 행에만 
+SELECT * FROM emp01 WHERE sal >= 3000;
 
 
 -- 5. ?emp01 table 사원의 급여가 1000이상인 사원들의 급여만 500원씩 삭감 
 -- insert/update/delete 문장에 한해서만 commit과 rollback 영향을 받음
-
+UPDATE emp01 SET sal=sal-500 WHERE sal >= 1000; 
+SELECT * FROM emp01 WHERE sal >= 1000;
 
 -- 6. ? emp01 table에 DALLAS(dept의 loc)에 위치한 부서의 소속 사원들의 급여를 1000인상
 -- 서브쿼리 사용
+SELECT * FROM emp01;
+DESC emp;
+-- deptno 테이블을 만들고, 테이블의 정보는 emp 테이블에서 가져와서 넣을 겁니다
+ALTER TABLE emp01 ADD deptno int DEFAULT 0;
+UPDATE emp01 SET deptno = (SELECT deptno FROM emp WHERE emp01.empno = emp.empno);
+SELECT deptno FROM emp WHERE empno ;
 
+SELECT * FROM emp01; 
+SELECT * FROM dept;
+UPDATE emp01 SET sal =sal + 1000 
+WHERE emp01.deptno=(SELECT dept.deptno FROM dept WHERE loc='DALLAS');
+SELECT deptno FROM dept WHERE loc='DALLAS';
 
 -- emp와 dept를 서브쿼리를 통해 연결해서 emp의 부서원정보는 모두 조회되되, 
 -- loc이 같이 출력되도록 쿼리문을 작성해주세요
-
+select * from emp01, dept where emp01.deptno = dept.deptno AND loc='DALLAS';
 
 
 
 -- 7. ? emp01 table의 SMITH 사원의 부서 번호를 30으로, 직급은 MANAGER 수정
 -- 두개 이상의 칼럼값 동시 수정
+UPDATE emp01 SET deptno=30, job='MANAGER' WHERE ename='SMITH'; 
+-- job 컬럼이 없어서 값 변경되지 않음  
+SELECT * FROM emp;
+UPDATE emp SET deptno=30, job='MANAGER' WHERE ename='SMITH';
+-- 조건(컬럼)만 만족한다면 SET 절에는 몇개의 값이든 넣어서 한번에 변경할 수 있습니다. 
+
 
 -- *** delete ***
 -- 8. 하나의 table의 모든 데이터 삭제
+DELETE FROM emp03; 
+SELECT * FROM emp03;
 
+TRUNCATE emp03; -- commit이 동시에 실행됨 
 
 -- 9. 특정 row 삭제(where 조건식 기준)
 -- deptno가 30번 부서의 모든 사원들 삭제
+SELECT * FROM emp01;
+DELETE FROM emp01 WHERE deptno=30;
 
 -- 10. emp01 table에서 comm 존재 자체가 없는(null) 사원 모두 삭제
-
+-- comm이 없어서 
+SELECT * FROM emp;
+DELETE FROM emp WHERE comm IS NULL;
 
 -- 11. emp01 table에서 comm이 null이 아닌 사원 모두 삭제
+DELETE FROM emp WHERE comm IS NOT NULL;
 
+SELECT * FROM emp;
 
 
 -- 12. emp01 table에서 부서명이 RESEARCH 부서(dept table의 dname)에 소속된 사원 삭제 
 -- 서브쿼리 활용
-
-
+SELECT * FROM emp01;
+SELECT deptno, dname FROM dept WHERE dname = 'RESEARCH';
+DELETE FROM emp01 WHERE fisa.emp01.deptno = (
+		SELECT deptno 
+        FROM dept 
+        WHERE dname = 'RESEARCH'
+);
 
 -- 13. table 전체 내용 삭제
+select * from emp01;
 
+DELETE FROM emp01;
+
+select * from emp01;
+
+-- 중복되는 값을 여러번 받을 때는 만약에 테이블에 똑같은 값이 있다 -> 어떻게 바꿔주세요
+
+
+- 같은 값을 가진 행이 있음? 행을 변경, 없음? 행을 삽입 (딕셔너리의 키 처럼)
+
+
+/* INSERT와 UPDATE를 동시에 처리
+조건을 확인해 이미 대상 테이블에 값이 있으면 수정하고 없으면 입력하는 방법입니다.
+INSERT INTO 테이블명 (칼럼1, 칼럼2, ...)
+VALUES 절(또는 SELECT 문)
+    ON DUPLICATE KEY UPDATE 칼럼 = 값1, 값2, ... ;
+
+
+ON DUPLICATE KEY UPDATE 구문을 추가하면
+충돌이 발생하는 로우에서는 신규로 값을 입력하는 것이 아니라 기존에 저장된 값을 변경합니다.
+*/;
+DESC people;
+SELECT * FROM people;
+DELETE FROM people;
+ALTER TABLE people ADD CONSTRAINT PRIMARY KEY (name);
+DESC people;
+
+INSERT INTO people (name, age) VALUES ('김연지', 25)
+ON DUPLICATE KEY UPDATE
+  name = '중복값',
+  age = age + 1;
+SELECT * FROM people;
+
+
+
+
+ALTER TABLE people ADD CONSTRAINT UNIQUE (name); -- NOT NULL, UNIQUE
+
+
+DESC people;
+
+
+DELETE FROM people;
+
+
+SELECT * FROM people;
+
+
+DESC people;
+
+
+ALTER TABLE people ADD CONSTRAINT PRIMARY KEY (name);
+
+
+DESC people;
+
+
+-- 아래 구문은 4번 정도 반복해보세요
+INSERT INTO people (name, age) VALUES ('김연재', 25)
+ON DUPLICATE KEY UPDATE  -- ON DUPLICATE KEY가 의미하는 것은 실제로 UNIQUE가 걸려있는 COLUMN에서의 DUPLICATE를 의미합니다
+  name = '중복값',
+  age = age + 1;
+ 
+SELECT * FROM people;
