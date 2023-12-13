@@ -5,7 +5,7 @@ use fisa;
 -- 모든 부서의 정보와 함께 커미션이 있는 직원들의 커미션과 이름을 조회해 보세요.
 select d.deptno, d.dname, d.loc, e.ename, e.comm
 from emp e, dept d
-where e.comm is not null and e.deptno=d.deptno;
+where e.comm is not null and e.comm != 0 and e.deptno=d.deptno;
 
 -- 모든 부서의 부서별 연봉에 대한 총합과 평균과 표준편차를 구하고
 -- 모든 부서의 사원수를 구해 보세요.
@@ -44,7 +44,7 @@ from dept d, (select ename, deptno from emp where sal >= 2000) ee
 WHERE d.deptno = ee.deptno;
 -- emp 테이블에서 커미션이 있는 사람들의 이름과 부서번호, 부서이름, 지역을 조회해 보세요.
 select ee.ename, d.deptno, d.dname, d.loc
-from dept d, (select e.deptno, e.ename from emp e where e.comm is not null) ee
+from dept d, (select e.deptno, e.ename from emp e where e.comm is not null and e.comm != 0) ee
 where d.deptno = ee.deptno;
 
 -- join 절에서의 서브쿼리
