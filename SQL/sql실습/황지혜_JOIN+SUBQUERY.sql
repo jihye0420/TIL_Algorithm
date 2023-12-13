@@ -20,7 +20,7 @@ order by 1;
 -- 각 관리자의 부하직원수와 부하직원들의 평균연봉을 구해 보세요.
 select m.mgr, m.ename as 매니저, count(e.ename) '부하직원수', avg(e.sal) '평균연봉'
 from emp e, emp m
-where e.empno = m.mgr
+where e.empno = m.mgr and m.mgr is not null
 group by m.mgr;
 
 # Sub-Query 
@@ -40,8 +40,9 @@ where deptno in (select deptno from emp where job='MANAGER');
 # from 절에서의 서브쿼리
 -- emp 테이블에서 급여가 2000이 넘는 사람들의 이름과 부서번호, 부서이름, 지역 조회해 보세요.
 select ee.ename, d.deptno, d.dname, d.loc
-from dept d, (select ename, deptno from emp where sal >= 2000) ee
+from dept d, (select ename, deptno from emp where sal >= 2000) ee -- 별칭 필요!!!
 WHERE d.deptno = ee.deptno;
+
 -- emp 테이블에서 커미션이 있는 사람들의 이름과 부서번호, 부서이름, 지역을 조회해 보세요.
 select ee.ename, d.deptno, d.dname, d.loc
 from dept d, (select e.deptno, e.ename from emp e where e.comm is not null and e.comm != 0) ee
