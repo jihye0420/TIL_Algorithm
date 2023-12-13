@@ -41,21 +41,26 @@ use fisa;
 
 -- 데이터 구조만 복제해서 새로 생성
 -- empno, ename, deptno emp 테이블을 가지고오는데 구조만 가져와 보세요.
-
-
+DROP TABLE IF EXISTS emp01; 
+CREATE TABLE emp01 SELECT empno, ename, deptno FROM emp WHERE 1=0; 
+DESC emp01;
 
 -- 2. 칼럼명 기술후 데이터 입력 
 -- 저장하고자 하는 데이터의 순서를 컬럼명 명시하면서 변경 가능
+INSERT INTO emp01 VALUES (1, '김연지', 10), (2, '김연재', 3); 
 
 
 -- null을 허용하는 컬럼에 값 미저장시 특정 컬럼만 명시해서 값 저장 가능
 -- DEFALUT 값이 정해진 컬럼을 명시해서 값을 넣지 않으면 DEFAULT 값이 들어갑니다 
+INSERT INTO emp01 (ename, deptno) VALUES ('신짱구', 10); 
+SELECT * FROM emp01;
 /* 제약조건 없는 table에 사원명과 부서번호만 저장시도 : 정상 저장
  * mysql의 empno라는 int타입의 컬럼값이 검색시 0으로 적용되어 있음
  * oracle db의 경우 널 / mysql은 타입에 맞는 즉 정수타입의 기본값으로 자동 저장  
  */
+INSERT INTO emp01 (empno, ename, deptno) VALUES (DEFAULT, '신짱구', 10); 
 
-
+-- 0으로 들어가는 부분들은 '일단 채워넣음'  
 
 
 -- 3. 하나의 table에 한번에 데이터 insert하기 
@@ -63,22 +68,32 @@ use fisa;
 
 
 -- 4. 데이터만 삭제 - rollback으로 복구 불가능한 데이터 삭제 명령어
-
-
+-- DELETE 명령어로 empno가 0인 사람들의 행만 삭제해주세요 
+DELETE FROM emp01 WHERE empno = 0;
+select * from emp01;
 
 -- *** update ***
 -- 1. 테이블의 모든 행 변경 UPDATE 테이블명 SET 컬럼명=값
+UPDATE emp01 SET deptno=50;
+
+
+-- deptno값을 모두 60으로 변경
+UPDATE emp01 SET deptno=deptno + 10;
+rollback;
+select * from emp01;  
+set @@autocommit = 1; -- delete, update 문은 commit 
+-- emp01의 10인 사람을 하나 insert 해주시고 rollback이 적용되는지 확인해보세요
 
 
 
--- deptno값을 모두 50으로 변경
 
-
+INSERT INTO emp01 VALUES (3, '신짱구', 10);
 
 -- 10번 부서 번호를 50으로 변경
+SELECT * FROM emp01 WHERE deptno=10;
+UPDATE emp01 SET deptno=50 WHERE deptno=10; -- 조건에 맞는 행만 값을 변경 
+SELECT * FROM emp01;
 
-
-#      테이블      변경할 컬럼=변경할 값     조건이 되는 컬럼=기존의 값 
 
 
 -- 2. ? emp01 table의 모든 사원의 급여를 10%(sal*1.1) 인상하기
