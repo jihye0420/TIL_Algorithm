@@ -218,7 +218,7 @@ insert into emp01_v values(7777, '황지혜', '취준생', null, '2023-11-19', 0
 -- 누가 뭘 샀는지 알아볼 수 있는 테이블을 만들어보세요 
 
 
-	/* 윈도우 함수 - 익숙해지면 참 좋아요! => sql 함수의 일종!!!!!!!
+/* 윈도우 함수 - 익숙해지면 참 좋아요! => sql 함수의 일종!!!!!!!
  행과 행 간을 비교, 연산, 정의하기 위한 함수. -- 2019년, 2018년, 2020년 
  분석함수 또는 순위함수라고 부릅니다다.
  다른 함수들처럼 중첩해서 사용할 수는 없지만 서브쿼리에서는 사용가능합니다.
@@ -243,7 +243,19 @@ FROM 테이블명;
 -- ORDER BY를 포함한 쿼리문에서 특정 컬럼의 순위를 구하는 함수
 -- PARTITION 내에서 순위를 구할 수도 있고 전체 데이터에 대한 순위를 구할 수도 있다. 
 -- 동일한 값에 대해서는 같은 순위를 부여하며 중간 순위를 비운다.
+select * from mywork.box_office;
 
+select job, ename, sal, rank() over (partition by job order by sal desc)
+from emp;
+
+select job, ename, sal, dense_rank() over (partition by job order by sal desc)
+from emp; # 공동 순위 다음 순번
+
+insert into emp values(0000, '신짱아', '영업', null, now(), 0, 0, 30);
+update emp set job='salesman' where ename='신짱아';
+
+select * from dept;
+select * from emp;
 
   
 /* 2) DENSE_RANK (밀집, 밀도)
@@ -254,16 +266,22 @@ FROM 테이블명;
 RANK와 작동법은 동일, 동일한 값에 대해서는 같은 순위를 부여하고 중간 순위를 비우지 않는다. 
 동일한 값이 있는 경우 순위는 1,1,2,3,3,4
 */
-
+select job, ename, sal, dense_rank() over (partition by job order by sal desc)
+from emp;
  
  /* 3) ROW_NUMBER
 RANK, DENSE_RANK는 동일한 값에 대해 동일 순위를 부여하지만 
 ROW_NUMBER은 동일한 값이어도 고유한 순위를 부여한다.
+-- A1234 이전에는  -> 1, 2, 3, 4, 5 -> pk를 임의로 만들어줄 때 사용한다.
 */
+select job, ename, sal, ROW_NUMBER() over (partition by job order by sal desc)
+from emp;
+
 
 
 -- abc 순으로 정렬한(collation) 열번호가 매겨짐 
-
+select job, ename, sal, ROW_NUMBER() over (order by ename) 이름순위
+from emp;
 
 -- 겹치지 않는 번호를 부여해야 할 때, 순위별로 나눌 때도 사용을 하긴 합니다 
 -- 순서는 먼저 테이블에 들어간 값이 우선 순위를 부여받습니다 
@@ -283,26 +301,95 @@ ROW_NUMBER은 동일한 값이어도 고유한 순위를 부여한다.
 
 4) LEAD
 이후 몇 번째 행의 값을 가져오는 함수로 LAG와 마찬가지로 인자를 최대 3개까지 갖는다. */
+SELECT job, ename, sal, FIRST_VALUE(sal) OVER (ORDER BY sal ASC) 첫번째값
+FROM emp; -- MIN 
 
- 
- -- 2번째 인자로는 지금 기준으로 몇개 밀려난 순서에서 값을 가지고 올 것인지를 정해줍니다 
+SELECT job, ename, sal, FIRST_VALUE(sal) OVER (ORDER BY sal DESC) 첫번째값
+FROM emp; -- MIN 
 
+SELECT job, ename, sal, LAST_VALUE(sal) OVER (ORDER BY sal ASC) 첫번째값
+FROM emp; -- MAX
+
+SELECT job, ename, sal, FIRST_VALUE(sal) OVER (ORDER BY sal DESC) 마지막값
+FROM emp; -- MAX 
+
+SELECT job, ename, sal, FIRST_VALUE(sal) OVER (ORDER BY sal ASC) 마지막값
+FROM emp; -- MIN
+
+-- 2번째 인자로는 지금 기준으로 몇개 밀려난 순서에서 값을 가지고 올 것인지를 정해줍니다 
+SELECT job, ename, sal, LAG(sal) OVER (ORDER BY sal ASC) LAG_
+FROM emp; -- MIN
  
+ SELECT job, ename, sal, LAG(sal, 3) OVER (ORDER BY sal ASC) LAG_
+FROM emp; -- MIN
+
  -- NULL인 경우 들어갈 디폴트값이 세번째 인자로 
+ SELECT job, ename, sal, LAG(sal, 3, 0) OVER (ORDER BY sal ASC) LAG_
+FROM emp; -- MIN
+ 
+ 
+ SELECT job, ename, sal, LEAD(sal, 3, 0) OVER (ORDER BY sal ASC) LEAD_
+FROM emp; -- MIN
+DESC emp; 
+
+SELECT job, ename, sal, LEAD(sal, 3, '값없음') OVER (ORDER BY sal ASC) LEAD_
+FROM emp; -- MIN
+
+
+-- 2번째 인자로는 지금 기준으로 몇개 밀려난 순서에서 값을 가지고 올 것인지를 정해줍니다 
+
+ 
+-- NULL인 경우 들어갈 디폴트값이 세번째 인자로 
 
  
 /* 4. 그룹 내 비율 함수
--- 백분위, 누적비율, 상위에서 몇번째 
+-- 백분위 PERCENT_RANK, 누적비율 CUME_DIST, 상위에서 몇번째 NTILE
 */
+-- 최대값 기준으로 현재 행의 값이 몇 퍼센트 백분위인지
+select job, ename, sal, PERCENT_RANK() over (order by sal asc) RP_
+from emp;
 
+-- 부서별로 직원들이 최대임금 대비 몇 퍼센트 정도 임금을 받고 있는지
+select job, ename, sal, deptno, round(PERCENT_RANK() over (PARTITION BY deptno order by sal asc), 2) RP_
+from emp;
 	
+-- 누적 비율 CUME_DIST
+select job, ename, sal, deptno, round(CUME_DIST() over (PARTITION BY deptno order by sal asc), 2) 누적비율
+from emp;
+
+-- NTILE : 전체 데이터를 특정 기준으로 n개의 그룹으로 나눌때
+select job, ename, sal, deptno, NTILE(5) over (order by sal)
+from emp;
+
+
+select * from salgrade;
+
+-- 2번째로 돈 많이 받는 사람
+SELECT ENAME
+  FROM (SELECT ENAME, DENSE_RANK() OVER(ORDER BY SAL DESC) AS RN 
+		  FROM EMP) AS R
+ WHERE RN = 2;
+
+select * from (select job, ename, sal, RANK() OVER (order by sal desc)
+from emp limit 2) s 
+order by sal asc
+limit 1;
+
+select * from emp;
+
+-- 부서별로 돈을 가장 적게 받는 사람
+SELECT e.ename, e.sal, e.sal_min
+FROM (SELECT ename, sal, FIRST_VALUE(sal) OVER (PARTITION BY deptno ORDER BY sal ASC) AS sal_min
+FROM emp) AS e
+WHERE e.sal=e.sal_min; 
+
+-- 부서별로 가장 돈을 많이 받는 사람 만 따로 쿼리로 만들어서 결과를 출력해주세요
+
+
+-- 부서별로 가장 돈을 많이 받는 사람을 'MAXIMUM'이라는 컬럼에 별도로 출력해주세요 
 	
-	
-	
-	
-	
-	
-	
+-- VIEW에도 WINDOW 함수를 사용할 수 있나? 
+
 	
 	
 	
