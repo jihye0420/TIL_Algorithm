@@ -40,17 +40,6 @@ ALTER TABLE emp
 ADD CONSTRAINT fk_emp_dept FOREIGN KEY ( deptno ) REFERENCES dept( deptno ) 
 ON DELETE NO ACTION ON UPDATE NO ACTION; 
 
-DESC emp;
-INSERT INTO emp VALUES (1, '신짱구', '유치원생', 2, now(), 800, null, 70); 
--- 신짱구를 40번 부서로 넣은 후
-INSERT INTO fisa.emp VALUES (1, '신짱구', '유치원생', 2, now(), 800, null, 40); 
- -- 50으로 변경해주시고, 삭제  
- SELECT * FROM fisa.emp;
- UPDATE fisa.emp SET deptno=50 WHERE ename='신짱구';
-DELETE FROM fisa.emp WHERE ename='신짱구';
-
--- 지하철에 없는 역 번호가 있어서 고생을 많이했다 
-
 
 -- 부서번호, 부서이름, 부서가 있는 지역 
 insert into dept values(10, 'ACCOUNTING', 'NEW YORK');
@@ -118,6 +107,13 @@ COMMIT;
 
 
 -- 맨 마지막 행에 1800불 커미션은 안 받는 사람의 정보를 하나 넣어주세요
+CREATE VIEW emp_ AS select * FROM emp;
+
+SELECT * FROM emp_; # 바로가기에도 추가됨!
+
+-- 맨 마지막 행에 1800불 커미션은 안 받는 사람의 정보를 하나 넣어주세요
+INSERT INTO emp VALUES (9999, '신짱구', '유치원생', 0, NOW(), 1800, NULL, 40);
+
 
 
 -- 1. emp table과 dept table 기반으로 empno, ename, deptno, dname으로 view 생성
@@ -254,11 +250,6 @@ ROW_NUMBER은 동일한 값이어도 고유한 순위를 부여한다.
 
 
 
-	
-	
-	
-	
-	
 	
 	
 	
