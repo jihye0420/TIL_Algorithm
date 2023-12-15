@@ -9,21 +9,26 @@ show procedure status; -- 프로시저 목록 확인
 show create procedure sakila.film_in_stock; -- 프로시저 내용 확인
 drop procedure 프로시저이름; -- 프로시저 삭제
 
+select * from student_mgmt.students;
+select count(*) from students where gender='man'; # 남자인 개수
 
 
 -- 1. gender가 'man'인 학생들의 수를 세는 스토어드 프로시저 예제
-DELIMITER //
-CREATE PROCEDURE count_men()
-BEGIN
-    DECLARE count INT;
+DELIMITER // # //로 시작 해서 //로 끝난다는 구분자 설정
+CREATE PROCEDURE count_men() # count_men()이라는 프로시저 확인
+BEGIN # 시작
+    DECLARE count INT; # 지역 변수
     SELECT COUNT(*) INTO count FROM students WHERE gender = 'man';
     IF count > 3 THEN
-        SELECT 'Many men' AS result;
+        SELECT 'Many men' AS result; # print문과 같은 의미
     ELSE
         SELECT 'Few men' AS result;
     END IF;
-END //
+END // # 끝
 DELIMITER ;
+
+-- 프로시저 삭제
+drop procedure count_men;
 
 select * from students;
 call count_men(); -- CALL 함수명()
@@ -36,8 +41,29 @@ DROP PROCEDURE count_men;
 -- 스토어드 프로시저 예제를 만들어보세요.
 use student_mgmt;
 
+select * from students;
+
+
+# 82년생 2명 이상 있으면 나이 많은 사람 있음
 -- IF 문을 사용하여 birth year가 1982년 이전이면 'Many older students'을 반환하고, 
 -- 그렇지 않으면 'Few older students'를 반환합니다.
+DELIMITER $$
+CREATE PROCEDURE count_old()
+BEGIN
+    DECLARE count INT;
+    SELECT COUNT(*) INTO count FROM students WHERE YEAR(birth) < 1982;
+    IF count >= 8 THEN
+        SELECT 'Many older students' AS result;
+	ELSEIF count >= 5 and count < 8 THEN
+        SELECT 'soso' AS result;
+    ELSE
+        SELECT 'Few older students' AS result;
+    END IF;
+END $$
+DELIMITER ;
+
+call count_old(); -- CALL 함수명()
+
 
 -- if ~ elif~ else: 
 -- if ~ else if~ else:
