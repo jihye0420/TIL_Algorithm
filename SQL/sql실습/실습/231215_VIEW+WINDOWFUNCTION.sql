@@ -81,9 +81,7 @@ SELECT * FROM EMP;
 SELECT * FROM SALGRADE;
 
 COMMIT;
-
 /*
-*
 1. view 에 대한 학습
 	- 물리적으로는 미 존재, 단 논리적으로 존재
 	- 하나 이상의 테이블을 조회한 결과 집합의 독립적인 데이터베이스 객체
@@ -105,60 +103,53 @@ COMMIT;
 	WHERE condition;
 */
 
-
--- 맨 마지막 행에 1800불 커미션은 안 받는 사람의 정보를 하나 넣어주세요
+-- mysql 테이블 복사 -> 원본이 새로 생겨나는 개념
+-- emp, 연봉이 오르거나, 부서 추가 
 CREATE VIEW emp_ AS select * FROM emp;
 
-SELECT * FROM emp_; # emp테이블에 추가한 데이터가 view인 테이블의 바로가기에도 추가됨!
+SELECT * FROM emp_; -- 바로가기 
 
 -- 맨 마지막 행에 1800불 커미션은 안 받는 사람의 정보를 하나 넣어주세요
 INSERT INTO emp VALUES (9999, '신짱구', '유치원생', 0, NOW(), 1800, NULL, 40);
 
 -- 1. emp table과 dept table 기반으로 empno, ename, deptno, dname으로 view 생성
-create view emp_dept_v
-as select e.empno, e.ename, d.deptno, d.dname 
-from emp e, dept d 
-where e.deptno = d.deptno;
+CREATE VIEW  emp_dept_v AS SELECT e.empno, e.ename, d.deptno, d.dname 
+FROM emp e, dept d
+WHERE e.deptno = d.deptno; 
 
-drop view emp_dept_v;
-
+DROP VIEW emp_dept_v;
 -- view 생성
 
 select * from emp_dept_v;
 select * from dept;
+SELECT * FROM emp;
 
 -- dept table의 SALES라는 데이터를 영업으로 변경 후 view 검색
-update dept set dname = '영업' where dname='sales';
-
-select * from dept;
-
-select * from emp_dept_v; # 변경됨!
-
--- view는 가짜 테이블, 밖에서는 가짜 테이블인지 알 수 없음!
--- view에서도 값을 변경하거나 삭제하거나 추가할 수 있을까?
--- 2개 이상의 테이블이 걸려있는 view에 대해서는  
-insert into emp_dept_v (empno, ename, deptno, dname) values (null, '황지혜', 70, '미정'); 
-# insert 실행되지 않음! / fields list를 작성해야함! => 순서대로 넣었어도 원본에 있는 컬럼 중 어디에 들어갈 지 적어야 함! => 그래도 안됨!
-
--- emp와 dept에 함께 걸려서 변경할 수 있는 컬럼 x 
-update emp_dept_v set deptno=30 where ename='신짱구'; -- 짱구 부서를 30으로 변경해보시고 dept => 변경되지 않음! (dept로 인한 이슈!)
--- emp에만 접근해서 변경할 수 있는 컬럼 o 
-update emp_dept_v set ename='짱구' where ename='신짱구'; -- 짱구 이름을 신짱구 -> 짱구로 변경해 보시고 emp => 변경됨! (dept에만 접근해서 변경할 수 있는 컬럼 O)
--- dept에만 접근해서 변경할 수 있는 컬럼 o 
-update emp_dept_v set dname='운영' where ename='짱구'; -- 짱구 이름을 신짱구 => 변경됨! (dept에만 접근해서 변경할 수 있는 컬럼 O)
-delete from emp_dept_v where ename='짱구'; -- 짱구 정보 행 
--- view에 변경된 사항이 원본에 영향을 미칠까?? o
--- view에서 값을 변경할 수 있다면 원본의 제약조건의 영향을 받을까?? o
-
-select * from emp;
-select * from dept;
-SELECT * from emp_dept_v;
-desc emp;
-desc dept;
-desc emp_dept_v;
-
+UPDATE dept SET dname='영업' WHERE dname='SALES'; 
 
 -- 새로운 값을 넣고 emp와 dept에 어떤 영향이 있는지 직접 확인해보세요 
+
+-- view는 가짜테이블 밖에서는 테이블인지 아닌지 알 수 없어요.
+-- view에서도 값을 변경하거나 삭제하거나 추가할 수 있을까?
+
+-- 순서대로 넣었어도 원본에 있는 컬럼 중 어디에 들어갈 지 적어두셔야 합니다.
+-- 2개 이상의 테이블이 걸려있는 view에 대해서는  
+INSERT INTO emp_dept_v (empno, ename, deptno, dname) VALUES (NULL, '김연지', 70, '미정'); 
+-- emp와 dept에 함께 걸려서 변경할 수 있는 컬럼 x 
+UPDATE emp_dept_v SET deptno=30 WHERE ename='짱구'; -- 짱구 부서를 30으로 변경해보시고 dept 
+-- emp에만 접근해서 변경할 수 있는 컬럼 o 
+UPDATE emp_dept_v SET ename='신짱구' WHERE ename='짱구'; 
+-- dept에만 접근해서 변경할 수 있는 컬럼 o 
+UPDATE emp_dept_v SET dname='운영' WHERE ename='신짱구'; -- 짱구 이름을 신짱구 -> 짱구로 변경해 보시고 emp 
+DELETE FROM emp_dept_v WHERE ename='신짱구'; -- 짱구 정보 행 
+-- view에 변경된 사항이 원본에 영향을 미칠까??
+-- view에서 값을 변경할 수 있다면 원본의 제약조건의 영향을 받을까??
+
+SELECT * FROM emp;
+DESC emp;
+DESC dept;
+DESC emp_dept_v;
+SELECT * FROM emp_dept_v;
 
 -- emp의 empno는 key성질을 여전히 유지할 수 있으므로
 -- key preserved table이나, 
@@ -171,20 +162,21 @@ desc emp_dept_v;
 -- 2. view 삭제
 
 -- 3. ? emp table에서 comm을 제외한 emp01_v 라는 view 생성
-create view emp01_v
-as select empno, ename, job, mgr, hiredate, sal, deptno from emp;
+select * from emp;
 
-select * from emp01_v;
+CREATE VIEW emp01_v AS SELECT empno, ename, job, mgr, hiredate, sal, deptno FROM emp; 
+SELECT * FROM emp01_v;
+-- 1개의 테이블에서 유래한 VIEW는 어떻게 동작하는지 
 
-update emp01_v set ename='알렌' where ename='allen';
+-- ALLEN 이름을 알렌
+UPDATE emp01_v SET ename='알렌' WHERE ename='ALLEN'; 
 
-update emp01_v set sal=sal+100 where ename='알렌';
+-- 연봉도 올려주시고
+UPDATE emp01_v SET sal=sal+100 WHERE ename='알렌'; 
 
-delete from emp01_v where ename ='알렌';
-
-insert into emp values( 7499, 'ALLEN', 'SALESMAN', 7698, STR_TO_DATE('20-2-1981','%d-%m-%Y'), 1600, 300, 30);
-
--- empno, ename, job 만으로 생성해보기
+-- 알렌씨를 삭제도 해 주세요 
+DELETE FROM emp01_v WHERE ename='알렌'; 
+insert into  emp01_v values( 7499, 'ALLEN', 'SALESMAN', 7698, STR_TO_DATE('20-2-1981','%d-%m-%Y'), 1600, 30);
 
 
 -- 4. dept01_v에 crud : dep01_v와 dept01 table 변화 동시 검색
@@ -192,44 +184,39 @@ insert into emp values( 7499, 'ALLEN', 'SALESMAN', 7698, STR_TO_DATE('20-2-1981'
 -- *** DML은 view에 적용 가능, 원본 table에도 적용 
 -- dept01_v에서 50번 부서, '교육', '상암' 
 -- emp01_v에다가 여러분의 정보를 넣어주십시오 50번 
-create view dept01_v 
-as select * from dept;
-
-select * from dept01_v;
-select * from emp01_v;
-
-
-insert into dept01_v values(50, '교육', '상암');
-
-insert into emp01_v values(7777, '황지혜', '취준생', null, '2023-11-19', 0, 50);
-
-
+CREATE VIEW dept01_v AS SELECT * FROM dept;
+SELECT * FROM dept01_v;
+INSERT INTO dept01_v VALUES (50, '교육', '상암');
+SELECT * FROM dept;
+insert into  emp01_v values(NULL, '김연지', '강사', NULL, NOW(), 1000, 50);
+SELECT * FROM emp01_v;
 
 -- 5. 모든 end user(클라이언트, 실제로 가장 마지막 단에서 데이터를 조회하게 되는 사용자들) 가 
 -- 빈번히 사용하는 sql문장으로 "해당 직원의 모든 정보 검색"하기
--- emp, dept, salgrade 테이블을 참조하여 직원용 테이블을 VIEW로 구성해보세요
 -- 내 이름이 아니라 다른 직원 정보를 조회할 때도 보여줘야 할 것 같은 정보와
 -- 그렇지 않은 정보를 구분해서 관리해보세요 
 
 
--- 5. 모든 end user(클라이언트, 실제로 가장 마지막 단에서 데이터를 조회하게 되는 사용자들) 가 
--- 빈번히 사용하는 sql문장으로 "해당 직원의 모든 정보 검색"하기
--- 주문정보 뭘샀는지, 누가샀는지 1, 2 알아보기 힘듭니다
--- 누가 뭘 샀는지 알아볼 수 있는 테이블을 만들어보세요 
-
-
-/* 윈도우 함수 - 익숙해지면 참 좋아요! => sql 함수의 일종!!!!!!!
+	
+/* 윈도우 함수 - 익숙해지면 참 좋아요! 
  행과 행 간을 비교, 연산, 정의하기 위한 함수. -- 2019년, 2018년, 2020년 
- 분석함수 또는 순위함수라고 부릅니다다.
+ 분석함수 또는 순위함수라고 부릅니다.
  다른 함수들처럼 중첩해서 사용할 수는 없지만 서브쿼리에서는 사용가능합니다.
  
 SELECT WINDOW_FUNCTION(ARGUMENTS) OVER([PARTITION BY 컬럼] [ORDER BY 컬럼] [WINDOWING 절])
 FROM 테이블명;
 
 순위 함수:	RANK, DENSE_RANK, ROW_NUMBER	 
-90     1
-80 80  2 
-75     4 
+   90     1
+80 80     2      
+   75     4 
+
+3000
+2000
+1000
+1800
+1222
+4000   3000
 
 일반 집계 함수:	SUM, MAX, MIN, AVG, COUNT	
 그룹 내 행 순서 함수: FIRST_VALUE, LAST_VALUE, LAG, LEAD
@@ -243,45 +230,37 @@ FROM 테이블명;
 -- ORDER BY를 포함한 쿼리문에서 특정 컬럼의 순위를 구하는 함수
 -- PARTITION 내에서 순위를 구할 수도 있고 전체 데이터에 대한 순위를 구할 수도 있다. 
 -- 동일한 값에 대해서는 같은 순위를 부여하며 중간 순위를 비운다.
-select * from mywork.box_office;
 
-select job, ename, sal, rank() over (partition by job order by sal desc)
-from emp;
-
-select job, ename, sal, dense_rank() over (partition by job order by sal desc)
-from emp; # 공동 순위 다음 순번
-
-insert into emp values(0000, '신짱아', '영업', null, now(), 0, 0, 30);
-update emp set job='salesman' where ename='신짱아';
-
-select * from dept;
-select * from emp;
-
-  
+select * FROM mywork.box_office;
+SELECT job, ename, sal, RANK() OVER (PARTITION BY JOB ORDER BY SAL DESC) 
+FROM emp;
+ 
 /* 2) DENSE_RANK (밀집, 밀도)
 1
 2 2
 3 
 
-RANK와 작동법은 동일, 동일한 값에 대해서는 같은 순위를 부여하고 중간 순위를 비우지 않는다. 
+RANK와 작동법은 동일, 동일한 값에 대해서는 
+같은 순위를 부여하고 중간 순위를 비우지 않는다. 
 동일한 값이 있는 경우 순위는 1,1,2,3,3,4
 */
-select job, ename, sal, dense_rank() over (partition by job order by sal desc)
-from emp;
- 
+
+SELECT job, ename, sal, DENSE_RANK() OVER (PARTITION BY JOB ORDER BY SAL DESC) 
+FROM emp;
+
+-- SALESMAN 부서에 신짱아 800 
+INSERT INTO emp VALUES (NULL, '신짱아', 'SALESMAN', NULL, NOW(), 800, NULL, 30);
  /* 3) ROW_NUMBER
 RANK, DENSE_RANK는 동일한 값에 대해 동일 순위를 부여하지만 
 ROW_NUMBER은 동일한 값이어도 고유한 순위를 부여한다.
--- A1234 이전에는  -> 1, 2, 3, 4, 5 -> pk를 임의로 만들어줄 때 사용한다.
+-- 'A1234' 이전에는 -> 1, 2, 3, 4, 5 -> PK를 임의로 만들어줄 때 사용한다 
 */
-select job, ename, sal, ROW_NUMBER() over (partition by job order by sal desc)
-from emp;
-
-
+SELECT job, ename, sal, ROW_NUMBER() OVER (PARTITION BY JOB ORDER BY SAL DESC) 
+FROM emp;
 
 -- abc 순으로 정렬한(collation) 열번호가 매겨짐 
-select job, ename, sal, ROW_NUMBER() over (order by ename) 이름순위
-from emp;
+SELECT job, ename, sal, ROW_NUMBER() OVER (ORDER BY ename ASC) 이름순위
+FROM emp;
 
 -- 겹치지 않는 번호를 부여해야 할 때, 순위별로 나눌 때도 사용을 하긴 합니다 
 -- 순서는 먼저 테이블에 들어간 값이 우선 순위를 부여받습니다 
@@ -301,7 +280,7 @@ from emp;
 
 4) LEAD
 이후 몇 번째 행의 값을 가져오는 함수로 LAG와 마찬가지로 인자를 최대 3개까지 갖는다. */
-SELECT job, ename, sal, FIRST_VALUE(sal) OVER (ORDER BY sal ASC) 첫번째값
+SELECT job, ename, sal, FIRST_VALUE(sal) OVER (PARTITION BY job ORDER BY sal ASC) 첫번째값
 FROM emp; -- MIN 
 
 SELECT job, ename, sal, FIRST_VALUE(sal) OVER (ORDER BY sal DESC) 첫번째값
@@ -335,13 +314,6 @@ DESC emp;
 SELECT job, ename, sal, LEAD(sal, 3, '값없음') OVER (ORDER BY sal ASC) LEAD_
 FROM emp; -- MIN
 
-
--- 2번째 인자로는 지금 기준으로 몇개 밀려난 순서에서 값을 가지고 올 것인지를 정해줍니다 
-
- 
--- NULL인 경우 들어갈 디폴트값이 세번째 인자로 
-
- 
 /* 4. 그룹 내 비율 함수
 -- 백분위 PERCENT_RANK, 누적비율 CUME_DIST, 상위에서 몇번째-NTILE  
 */
@@ -427,3 +399,27 @@ SELECT * FROM test;
 -- VIEW는 주로 조회용으로 많이 씁니다. 원본테이블에서 숨기고 싶은 컬럼을 제외하고 출력할 때 
 	
 	
+	
+	
+	
+	
+	
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
