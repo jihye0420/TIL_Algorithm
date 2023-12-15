@@ -88,13 +88,14 @@ DROP PROCEDURE print_math_scores;
 DROP TABLE IF EXISTS gate_table;
 CREATE TABLE gate_table (id INT AUTO_INCREMENT PRIMARY KEY, entry_time DATETIME);
 INSERT INTO gate_table VALUES(NULL, SYSDATE());
+
 PREPARE myQuery FROM 'INSERT INTO gate_table VALUES(NULL, SYSDATE())'; -- 동적 쿼리를 만듦 
 
 EXECUTE myQuery;
 
 SELECT * FROM gate_table;
 
-DEALLOCATE PREPARE myQuery;
+DEALLOCATE PREPARE myQuery; # 메모리에서 제거
 
 -- SELECT문에서 행의 개수를 제한하는 LIMIT문에는 변수를 사용할 수 없습니다. 
 -- 이 때도 PREPARE, EXCUTE문을 사용합니다. 
