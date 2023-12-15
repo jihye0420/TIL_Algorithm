@@ -109,21 +109,54 @@ COMMIT;
 -- 맨 마지막 행에 1800불 커미션은 안 받는 사람의 정보를 하나 넣어주세요
 CREATE VIEW emp_ AS select * FROM emp;
 
-SELECT * FROM emp_; # 바로가기에도 추가됨!
+SELECT * FROM emp_; # emp테이블에 추가한 데이터가 view인 테이블의 바로가기에도 추가됨!
 
 -- 맨 마지막 행에 1800불 커미션은 안 받는 사람의 정보를 하나 넣어주세요
 INSERT INTO emp VALUES (9999, '신짱구', '유치원생', 0, NOW(), 1800, NULL, 40);
 
-
-
 -- 1. emp table과 dept table 기반으로 empno, ename, deptno, dname으로 view 생성
+create view emp_dept_v
+as select e.empno, e.ename, d.deptno, d.dname 
+from emp e, dept d 
+where e.deptno = d.deptno;
 
+drop view emp_dept_v;
 
 -- view 생성
 
 select * from emp_dept_v;
 select * from dept;
+
 -- dept table의 SALES라는 데이터를 영업으로 변경 후 view 검색
+update dept set dname = '영업' where dname='sales';
+
+select * from dept;
+
+select * from emp_dept_v; # 변경됨!
+
+-- view는 가짜 테이블, 밖에서는 가짜 테이블인지 알 수 없음!
+-- view에서도 값을 변경하거나 삭제하거나 추가할 수 있을까?
+-- 2개 이상의 테이블이 걸려있는 view에 대해서는  
+insert into emp_dept_v (empno, ename, deptno, dname) values (null, '황지혜', 70, '미정'); 
+# insert 실행되지 않음! / fields list를 작성해야함! => 순서대로 넣었어도 원본에 있는 컬럼 중 어디에 들어갈 지 적어야 함! => 그래도 안됨!
+
+-- emp와 dept에 함께 걸려서 변경할 수 있는 컬럼 x 
+update emp_dept_v set deptno=30 where ename='신짱구'; -- 짱구 부서를 30으로 변경해보시고 dept => 변경되지 않음! (dept로 인한 이슈!)
+-- emp에만 접근해서 변경할 수 있는 컬럼 o 
+update emp_dept_v set ename='짱구' where ename='신짱구'; -- 짱구 이름을 신짱구 -> 짱구로 변경해 보시고 emp => 변경됨! (dept에만 접근해서 변경할 수 있는 컬럼 O)
+-- dept에만 접근해서 변경할 수 있는 컬럼 o 
+update emp_dept_v set dname='운영' where ename='짱구'; -- 짱구 이름을 신짱구 => 변경됨! (dept에만 접근해서 변경할 수 있는 컬럼 O)
+delete from emp_dept_v where ename='짱구'; -- 짱구 정보 행 
+-- view에 변경된 사항이 원본에 영향을 미칠까?? o
+-- view에서 값을 변경할 수 있다면 원본의 제약조건의 영향을 받을까?? o
+
+select * from emp;
+select * from dept;
+SELECT * from emp_dept_v;
+desc emp;
+desc dept;
+desc emp_dept_v;
+
 
 -- 새로운 값을 넣고 emp와 dept에 어떤 영향이 있는지 직접 확인해보세요 
 
@@ -138,13 +171,38 @@ select * from dept;
 -- 2. view 삭제
 
 -- 3. ? emp table에서 comm을 제외한 emp01_v 라는 view 생성
+create view emp01_v
+as select empno, ename, job, mgr, hiredate, sal, deptno from emp;
 
+select * from emp01_v;
+
+update emp01_v set ename='알렌' where ename='allen';
+
+update emp01_v set sal=sal+100 where ename='알렌';
+
+delete from emp01_v where ename ='알렌';
+
+insert into emp values( 7499, 'ALLEN', 'SALESMAN', 7698, STR_TO_DATE('20-2-1981','%d-%m-%Y'), 1600, 300, 30);
 
 -- empno, ename, job 만으로 생성해보기
+
 
 -- 4. dept01_v에 crud : dep01_v와 dept01 table 변화 동시 검색
 -- view만 수정해도 원본 table의 데이터가 동기화
 -- *** DML은 view에 적용 가능, 원본 table에도 적용 
+-- dept01_v에서 50번 부서, '교육', '상암' 
+-- emp01_v에다가 여러분의 정보를 넣어주십시오 50번 
+create view dept01_v 
+as select * from dept;
+
+select * from dept01_v;
+select * from emp01_v;
+
+
+insert into dept01_v values(50, '교육', '상암');
+
+insert into emp01_v values(7777, '황지혜', '취준생', null, '2023-11-19', 0, 50);
+
 
 
 -- 5. 모든 end user(클라이언트, 실제로 가장 마지막 단에서 데이터를 조회하게 되는 사용자들) 가 
@@ -153,10 +211,14 @@ select * from dept;
 -- 내 이름이 아니라 다른 직원 정보를 조회할 때도 보여줘야 할 것 같은 정보와
 -- 그렇지 않은 정보를 구분해서 관리해보세요 
 
-	
 
-	
-	/* 윈도우 함수 - 익숙해지면 참 좋아요! 
+-- 5. 모든 end user(클라이언트, 실제로 가장 마지막 단에서 데이터를 조회하게 되는 사용자들) 가 
+-- 빈번히 사용하는 sql문장으로 "해당 직원의 모든 정보 검색"하기
+-- 주문정보 뭘샀는지, 누가샀는지 1, 2 알아보기 힘듭니다
+-- 누가 뭘 샀는지 알아볼 수 있는 테이블을 만들어보세요 
+
+
+	/* 윈도우 함수 - 익숙해지면 참 좋아요! => sql 함수의 일종!!!!!!!
  행과 행 간을 비교, 연산, 정의하기 위한 함수. -- 2019년, 2018년, 2020년 
  분석함수 또는 순위함수라고 부릅니다다.
  다른 함수들처럼 중첩해서 사용할 수는 없지만 서브쿼리에서는 사용가능합니다.
